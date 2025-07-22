@@ -1,0 +1,37 @@
+{% block content %}
+<h2>Lista de Alertas Administrativas</h2>
+
+<div class="alertas-admin-container">
+    {% for alerta in alertas %}
+    <div class="alerta-admin-card {% if alerta.activa %}estado-activa{% else %}estado-inactiva{% endif %}">
+        
+        <!-- Contenido clickeable -->
+        <a href="{% url 'detalle_alerta' alerta.id %}" class="alerta-link" style="text-decoration: none";>
+            <h3>{{ alerta.nombre_desaparecido }}</h3>
+            {% if alerta.imagen %}
+                <img src="{{ alerta.imagen.url }}" alt="{{ alerta.nombre_desaparecido }}" width="80" height="80">
+            {% endif %}
+            <p><strong>Estado:</strong> {% if alerta.activa %}Activa{% else %}Encontrada{% endif %}</p>
+            <p><strong>Ubicación:</strong> {{ alerta.ultima_ubicacion }}</p>
+            <p><strong>Fecha:</strong> {{ alerta.fecha_desaparicion|date:"d/m/Y" }}</p>
+            <p><strong>Edad:</strong> {{ alerta.edad }} años</p>
+        </a>
+
+        <!-- Formulario de cambio de estado -->
+        <form method="post" action="{% url 'cambiar_estado_alerta' alerta.id %}">
+            {% csrf_token %}
+            {% if alerta.activa %}
+                <input type="hidden" name="accion" value="desactivar">
+                <button type="submit" class="btn-desactivar">Desactivar</button>
+            {% else %}
+                <input type="hidden" name="accion" value="activar">
+                <button type="submit" class="btn-activar">Activar</button>
+            {% endif %}
+        </form>
+
+    </div>
+    {% empty %}
+        <p>No hay alertas registradas.</p>
+    {% endfor %}
+</div>
+{% endblock %}

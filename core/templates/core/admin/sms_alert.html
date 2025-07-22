@@ -1,0 +1,21 @@
+<h2>📲 Registro de Teléfonos para Alertas SMS</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <input type="text" name="telefono" pattern="\d{8}" placeholder="60000000" required>
+    <button type="submit" name="registrar">Registrar</button>
+</form>
+
+<hr>
+
+<p><strong>Usuarios registrados:</strong> {{ total_registrados }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="enviar_sms">📩 Enviar SMS con alerta activa</button>
+</form>
+
+{% for message in messages %}
+    <p style="color:green;">{{ message }}</p>
+{% endfor %}

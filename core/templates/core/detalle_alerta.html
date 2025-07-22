@@ -1,0 +1,26 @@
+{% extends 'core/publico/baseUsuario.html' %}
+{% load static %}
+
+{% block title %}Detalle de Alerta {{ alerta.numero_reporte }}{% endblock %}
+
+{% block content %}
+<h2>Alerta AMBER: {{ alerta.nombre_desaparecido }}</h2>
+<img src="{{ alerta.imagen.url }}" alt="Imagen de {{ alerta.nombre_desaparecido }}" width="300">
+
+<ul>
+    <li><strong>Edad:</strong> {{ alerta.edad }}</li>
+    <li><strong>Género:</strong> {{ alerta.get_genero_display }}</li>
+    <li><strong>Última Ubicación:</strong> {{ alerta.ultima_ubicacion }}</li>
+    <li><strong>Fecha de Desaparición:</strong> {{ alerta.fecha_desaparicion }}</li>
+    <li><strong>Hora de Desaparición:</strong> {{ alerta.hora_desaparicion }}</li>
+    <li><strong>Número de Reporte:</strong> {{ alerta.numero_reporte }}</li>
+    <li><strong>Estatura:</strong> {{ alerta.estatura }}</li>
+    <li><strong>Contextura:</strong> {{ alerta.contextura }}</li>
+    <li><strong>Cabello:</strong> {{ alerta.tipo_cabello }} - {{ alerta.color_cabello }}</li>
+    <li><strong>Ojos:</strong> {{ alerta.color_ojos }}</li>
+    <li><strong>Piel:</strong> {{ alerta.color_piel }}</li>
+    <li><strong>Señas Particulares:</strong> {{ alerta.señas_particulares }}</li>
+    <li><strong>Otros Detalles:</strong> {{ alerta.otros_detalles }}</li>
+    <li><strong>Estado de Alerta:</strong> {% if alerta.activa %} Activa {% else %} Finalizada {% endif %}</li>
+</ul>
+{% endblock %}

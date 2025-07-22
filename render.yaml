@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: amberalert
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn amber_alert_project.wsgi:application
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: alertas_amber
+          property: connectionString
+    migrationsCommand: python manage.py migrate

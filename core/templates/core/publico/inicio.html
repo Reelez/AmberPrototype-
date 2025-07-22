@@ -1,0 +1,29 @@
+{% extends 'core/publico/baseUsuario.html' %}
+
+{% block title %}Inicio - Alerta AMBER Panamá{% endblock %}
+
+{% block content %}
+<h2>Bienvenido al Sistema Oficial de Alerta AMBER Panamá</h2>
+
+ 
+
+ <p>El programa <strong>Alerta AMBER</strong> tiene como objetivo la búsqueda y localización inmediata de niños, niñas y adolescentes desaparecidos en la República de Panamá. Este sistema permite difundir alertas de manera rápida a la ciudadanía para que colaboren en la localización de los menores reportados.</p>
+
+<h3>¿Qué es una Alerta AMBER?</h3>
+<p>Es una notificación urgente difundida a través de diversos medios de comunicación y plataformas digitales cuando un menor ha sido reportado como desaparecido y se sospecha que puede estar en peligro. Su propósito es movilizar a la sociedad para facilitar su localización segura.</p>
+
+<h3>¿Cómo puedes ayudar?</h3>
+<ul>
+    <li>Revisa frecuentemente las <a href="{% url 'lista_alertas' %}">alertas activas</a> publicadas en esta página.</li>
+    <li>Si reconoces a alguna persona desaparecida, llama inmediatamente al <strong>104</strong> o al número de contacto especificado en cada alerta.</li>
+    <li>Comparte las alertas con familiares y amigos para aumentar las posibilidades de localización.</li>
+</ul>
+
+<h3>Importante:</h3>
+<p>Si tienes información relevante sobre alguna alerta activa, no dudes en comunicarte con las autoridades. Toda ayuda es fundamental.</p>
+
+<h3>Contacto:</h3>
+<p>Policía Nacional de Panamá: <strong>104</strong></p>
+<p>Dirección de Investigación Judicial (DIJ): <strong>507-512-2222</strong></p>
+
+{% endblock %}

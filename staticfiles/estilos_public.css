@@ -1,0 +1,339 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variables de colores panameños */
+:root {
+    --rojo-panama: #DC143C;
+    --azul-panama: #0066CC;
+    --blanco-panama: #FFFFFF;
+    --gris-claro: #F8F9FA;
+    --gris-oscuro: #343A40;
+    --sombra: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--gris-oscuro);
+    background: linear-gradient(135deg, var(--blanco-panama) 0%, var(--gris-claro) 100%);
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--rojo-panama) 0%, var(--azul-panama) 100%);
+    color: var(--blanco-panama);
+    padding: 2rem 0;
+    text-align: center;
+    box-shadow: 0 4px 6px var(--sombra);
+    position: relative;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Navegación */
+nav {
+    position: relative;
+    z-index: 1;
+}
+
+nav a {
+    color: var(--blanco-panama);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+}
+
+nav a:hover {
+    background: var(--blanco-panama);
+    color: var(--rojo-panama);
+    border-color: var(--blanco-panama);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Línea divisoria */
+hr {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, var(--rojo-panama), var(--blanco-panama), var(--azul-panama));
+    margin: 0;
+}
+
+/* Contenido principal */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Títulos */
+h2 {
+    color: var(--rojo-panama);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--rojo-panama), var(--azul-panama));
+    border-radius: 2px;
+}
+
+h3 {
+    color: var(--azul-panama);
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem 0;
+    border-left: 4px solid var(--rojo-panama);
+    padding-left: 1rem;
+}
+
+/* Párrafos */
+p {
+    margin-bottom: 1rem;
+    text-align: justify;
+    font-size: 1.1rem;
+}
+
+/* Listas */
+ul {
+    margin: 1rem 0;
+    padding-left: 0;
+}
+
+li {
+    background: var(--blanco-panama);
+    margin: 0.5rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--sombra);
+    border-left: 4px solid var(--azul-panama);
+    list-style: none;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+li:hover {
+    transform: translateX(5px);
+}
+
+li::before {
+    margin-right: 0.5rem;
+}
+
+/* Enlaces */
+a {
+    color: var(--azul-panama);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--rojo-panama);
+    text-decoration: underline;
+}
+
+/* Texto fuerte */
+strong {
+    color: var(--rojo-panama);
+    font-weight: bold;
+}
+
+/* Sección de contacto */
+p:has(strong) {
+    background: var(--gris-claro);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--azul-panama);
+    margin: 1rem 0;
+}
+
+/* Alertas AMBER */
+.alerta-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.alerta-card {
+    background: var(--blanco-panama);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 16px var(--sombra);
+    border: 3px solid var(--rojo-panama);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.alerta-card::before {
+    content: 'ALERTA AMBER';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--rojo-panama);
+    color: var(--blanco-panama);
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.alerta-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(220, 20, 60, 0.3);
+}
+
+.alerta-card h3 {
+    color: var(--rojo-panama);
+    font-size: 1.3rem;
+    margin: 2rem 0 1rem 0;
+    border: none;
+    padding: 0;
+    text-align: center;
+}
+
+.alerta-card p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    text-align: left;
+    color: var(--gris-oscuro);
+}
+
+.alerta-card img {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 1rem auto;
+    display: block;
+    border: 3px solid var(--azul-panama);
+}
+
+/* Mensaje cuando no hay alertas */
+.no-alertas {
+    text-align: center;
+    padding: 3rem;
+    background: var(--gris-claro);
+    border-radius: 15px;
+    border: 2px dashed var(--azul-panama);
+    color: var(--azul-panama);
+    font-size: 1.2rem;
+}
+
+/* Footer */
+footer {
+    background: var(--gris-oscuro);
+    color: var(--blanco-panama);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 3rem;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    nav a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+    
+    main {
+        padding: 1rem;
+    }
+    
+    .alerta-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animaciones adicionales */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.alerta-card {
+    animation: pulse 2s infinite;
+}
+
+.alerta-card:hover {
+    animation: none;
+}
+
+/* Efectos especiales para urgencia */
+.urgente {
+    border-color: var(--rojo-panama) !important;
+    background: linear-gradient(135deg, var(--blanco-panama) 0%, #FFE4E1 100%);
+}
+
+.urgente::before {
+    background: linear-gradient(45deg, var(--rojo-panama), #FF6B6B);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.7; }
+}

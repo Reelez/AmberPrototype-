@@ -1,0 +1,27 @@
+{% extends 'core/publico/baseUsuario.html' %}
+
+{% block content %}
+<h2>🚨 Alertas AMBER Activas</h2>
+
+<div class="alerta-container">
+  {% for alerta in alertas %}
+    <a href="{% url 'detalle_alerta' alerta.id %}" class="alerta-card urgente" style="text-decoration: none; color: inherit;">
+      <h3>{{ alerta.nombre_desaparecido }}</h3>
+      {% if alerta.imagen %}
+        <img src="{{ alerta.imagen.url }}" alt="Imagen de {{ alerta.nombre_desaparecido }}">
+      {% endif %}
+      <p><strong>Última ubicación:</strong> {{ alerta.ultima_ubicacion }}</p>
+      <p><strong>Desaparecido desde:</strong> {{ alerta.fecha_desaparicion|date:"d \\d\\e F \\d\\e Y" }}</p>
+      <p><strong>Edad:</strong> {{ alerta.edad }} años</p>
+      <p style="text-align: center; margin-top: 1rem; font-weight: bold; color: var(--rojo-panama);">
+        📞 Si tienes información, llama al <strong>104</strong>
+      </p>
+    </a>
+  {% empty %}
+    <div class="no-alertas">
+      <p>✅ No hay alertas activas en este momento.</p>
+      <p>Mantente atento a futuras publicaciones.</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

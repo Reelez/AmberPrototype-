@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Alerta AMBER{% endblock %}</title>
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="stylesheet" href="{% static 'estilos_admin.css' %}" />
+</head>
+<body>
+    <header>
+        <h1>Sistema Alerta AMBER</h1>
+        <nav>
+            <a href="{% url 'dashboard' %}">Dashboard</a> |
+            <a href="{% url 'crear_alerta' %}">Crear Alerta</a> |
+        </nav>
+    </header>
+    <hr />
+    
+    {# Bloque para mostrar la lista de alertas solo donde se defina #}
+    {% block alertas_activas %}
+    {% endblock %}
+    
+    <main>
+        {% block content %}
+        <!-- Aquí va el contenido específico de cada página -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <hr />
+        <p style="text-align:center; font-size: 0.9em;">© 2025 Alerta AMBER Panamá</p>
+    </footer>
+</body>
+</html>

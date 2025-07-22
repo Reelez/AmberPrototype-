@@ -1,0 +1,142 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Alerta AMBER - Sitio Oficial{% endblock %}</title>
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+
+    <link rel="stylesheet" href="{% static 'estilos_public.css' %}" />
+
+
+
+</head>
+<body>
+    <header>
+        <h1>Alerta AMBER Panamá - Sitio Oficial</h1>
+        <nav>
+            <a href="{% url 'inicio' %}">Inicio</a> |
+            <a href="{% url 'lista_alertas' %}">Casos Reportados</a>
+        </nav>
+    </header>
+    <hr />
+
+    <main>
+        {% block content %}
+       
+        {% endblock %}
+    </main>
+
+    <footer>
+        <hr />
+        <p style="text-align:center; font-size: 0.9em;">© 2025 Alerta AMBER Panamá</p>
+    </footer>
+<script>
+const publicKey = '{{ VAPID_PUBLIC_KEY }}';
+
+function urlB64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
+}
+
+if ('serviceWorker' in navigator && 'PushManager' in window) {
+    Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                // Esperar a que el service worker esté activo
+                if (registration.active) {
+                    subscribeUser(registration);
+                } else {
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'activated') {
+                                subscribeUser(registration);
+                            }
+                        });
+                    });
+                }
+            })
+            .catch(err => console.error('Error registrando Service Worker:', err));
+        } else {
+            console.log('Permiso para notificaciones denegado');
+        }
+    });
+}
+
+function subscribeUser(registration) {
+    registration.pushManager.getSubscription()
+    .then(subscription => {
+        if (subscription === null) {
+            // Suscribirse
+            registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlB64ToUint8Array(publicKey)
+            })
+            .then(newSub => {
+                // Codificar keys a base64 antes de enviar
+                const dataToSend = {
+                    endpoint: newSub.endpoint,
+                    keys: {
+                        auth: btoa(String.fromCharCode.apply(null, new Uint8Array(newSub.getKey('auth')))),
+                        p256dh: btoa(String.fromCharCode.apply(null, new Uint8Array(newSub.getKey('p256dh'))))
+                    }
+                };
+                return fetch('/save-subscription/', {
+                    method: 'POST',
+                    body: JSON.stringify(dataToSend),
+                    headers: {'Content-Type': 'application/json'}
+                });
+            })
+            .then(res => res.json())
+            .then(data => console.log('Subscripción guardada:', data))
+            .catch(err => console.error('Error suscribiendo usuario:', err));
+        } else {
+            console.log('Ya estás suscrito.');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('activarNotificaciones');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                if ('serviceWorker' in navigator && 'PushManager' in window) {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            navigator.serviceWorker.register('/service-worker.js')
+                            .then(registration => {
+                                if (registration.active) {
+                                    subscribeUser(registration);
+                                } else {
+                                    registration.addEventListener('updatefound', () => {
+                                        const newWorker = registration.installing;
+                                        newWorker.addEventListener('statechange', () => {
+                                            if (newWorker.state === 'activated') {
+                                                subscribeUser(registration);
+                                            }
+                                        });
+                                    });
+                                }
+                            }).catch(err => console.error('Error registrando Service Worker:', err));
+                        } else {
+                            console.log('Permiso para notificaciones denegado');
+                        }
+                    });
+                } else {
+                    console.log('Service Worker o Push Manager no soportado');
+                }
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+/* Variables de colores panameños */
+:root {
+    --rojo-panama: #DC143C;
+    --azul-panama: #0066CC;
+    --blanco-panama: #FFFFFF;
+    --gris-claro: #F8F9FA;
+    --gris-medio: #E9ECEF;
+    --gris-oscuro: #343A40;
+    --verde-exito: #28A745;
+    --amarillo-advertencia: #FFC107;
+    --sombra: rgba(0, 0, 0, 0.1);
+    --sombra-fuerte: rgba(0, 0, 0, 0.2);
+    --sombra-login: rgba(220, 20, 60, 0.3);
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--azul-panama) 0%, var(--rojo-panama) 50%, var(--azul-panama) 100%);
+    color: var(--gris-oscuro);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* espacio para que no toque bordes en móviles */
+}
+
+/* Contenedor principal del login */
+.login-container {
+    background-color: var(--blanco-panama);
+    padding: 25px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px var(--sombra-login);
+    width: 100%;
+    max-width: 400px; /* un poco más ancho para pantallas grandes */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Título */
+h2 {
+    color: var(--rojo-panama);
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+/* Formulario */
+form {
+    margin-top: 10px;
+}
+
+/* Etiquetas */
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: var(--gris-oscuro);
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: left;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gris-medio);
+    border-radius: 4px;
+    background-color: var(--gris-claro);
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border: 2px solid var(--azul-panama);
+    outline: none;
+}
+
+/* Botón */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--rojo-panama);
+    color: var(--blanco-panama);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--azul-panama);
+}
+
+/* Mensajes de error */
+p {
+    color: var(--rojo-panama);
+    font-size: 0.9em;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Responsive: ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px 15px;
+        max-width: 95%;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    label, input[type="text"], input[type="password"], button {
+        font-size: 1rem;
+    }
+}

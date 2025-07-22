@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Configuración sensible
+.env
+.env.production
+
+# Archivos de base de datos SQLite (si usas)
+*.sqlite3
+
+
+
+
+
+# Archivos de logs
+*.log
+
+# IDEs / editores
+.vscode/
+.idea/
+*.swp
+
+# MacOS
+.DS_Store
+
+
