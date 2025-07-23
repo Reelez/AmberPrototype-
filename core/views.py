@@ -13,11 +13,9 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from twilio.rest import Client
-from core.api.twitterAPI import publicar_tweet
-from core.utils.image_generator import generate_alert_image
 from core.services.webpush_service import enviar_web_push
 from core.services.sms_service import enviar_sms
-from core.services.twitter_service import publicar_alerta_en_twitter
+
 
 
 def custom_login(request):
@@ -55,13 +53,7 @@ def crear_alerta(request):
             mensaje = f"Última ubicación: {alerta.ultima_ubicacion}. Reporta al 104"
             enviar_web_push(titulo, mensaje, url)
 
-            # 2️ Publicar en Twitter
-            descripcion_tweet = (
-                "PRUEBA DE PROTOTIPO AMBER – INFORMACIÓN NO OFICIAL, SOLO ES UN PROTOTIPO."
-            )
-            publicar_alerta_en_twitter(alerta, descripcion_tweet)
-
-            # 3️ Enviar SMS
+            # 2 Enviar SMS
             enviar_sms(alerta, url)
 
             messages.success(request, "✅ Alerta creada. Notificaciones enviadas (Web Push, Twitter y SMS).")
