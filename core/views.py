@@ -13,7 +13,11 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from twilio.rest import Client
-
+from core.api.twitterAPI import publicar_tweet
+from core.utils.image_generator import generate_alert_image
+from core.services.webpush_service import enviar_web_push
+from core.services.sms_service import enviar_sms
+from core.services.twitter_service import publicar_alerta_en_twitter
 
 
 def custom_login(request):
@@ -43,36 +47,24 @@ def crear_alerta(request):
         if form.is_valid():
             alerta = form.save()
 
+            # URL de detalle de la alerta
+            url = request.build_absolute_uri(reverse('detalle_alerta', args=[alerta.id]))
+
             # 1️ Enviar Web Push
             titulo = f"Alerta AMBER: {alerta.nombre_desaparecido}"
             mensaje = f"Última ubicación: {alerta.ultima_ubicacion}. Reporta al 104"
-            url = request.build_absolute_uri(reverse('detalle_alerta', args=[alerta.id]))
-            try:
-                send_web_push_notification(titulo, mensaje, url)
-            except Exception as e:
-                print("Error en Web Push:", e)
+            enviar_web_push(titulo, mensaje, url)
 
-            # 2 Enviar SMS con Twilio
-            try:
-                client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-            except Exception as e:
-                print("Error creando Twilio Client:", e)
-            sms_mensaje = (
-            f"🔴 Alerta AMBER: {alerta.nombre_desaparecido} desapareció en {alerta.ultima_ubicacion}. "
-            f"Más info: {url} Llama al 104."
+            # 2️ Publicar en Twitter
+            descripcion_tweet = (
+                "PRUEBA DE PROTOTIPO AMBER – INFORMACIÓN NO OFICIAL, SOLO ES UN PROTOTIPO."
             )
+            publicar_alerta_en_twitter(alerta, descripcion_tweet)
 
-            for usuario in UserSMS.objects.all():
-                try:
-                    client.messages.create(
-                        body=sms_mensaje,
-                        from_=settings.TWILIO_FROM_NUMBER,
-                        to=usuario.telefono
-                    )
-                except Exception as e:
-                    print(f"Error al enviar SMS a {usuario.telefono}: {e}")
+            # 3️ Enviar SMS
+            enviar_sms(alerta, url)
 
-            messages.success(request, "✅ Alerta creada. Notificaciones Web Push y SMS enviadas.")
+            messages.success(request, "✅ Alerta creada. Notificaciones enviadas (Web Push, Twitter y SMS).")
             form = AlertaAmberForm()
         else:
             print(form.errors)
@@ -81,6 +73,8 @@ def crear_alerta(request):
 
     alertas = AlertaAmber.objects.filter(activa=True)
     return render(request, 'core/admin/crear_alerta.html', {'form': form, 'alertas': alertas})
+
+
 
 @staff_member_required
 def sms_alert_view(request):
@@ -98,18 +92,8 @@ def sms_alert_view(request):
         elif 'enviar_sms' in request.POST:
             alerta = AlertaAmber.objects.filter(activa=True).last()
             if alerta:
-                client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-                mensaje = f" Alerta AMBER: {alerta.nombre_desaparecido} desapareció en {alerta.ultima_ubicacion}. Reporta al 104."
-
-                for user in UserSMS.objects.all():
-                    try:
-                        client.messages.create(
-                            body=mensaje,
-                            from_=settings.TWILIO_FROM_NUMBER,
-                            to=user.telefono
-                        )
-                    except Exception as e:
-                        print(f"Error con {user.telefono}: {e}")
+                url = request.build_absolute_uri(reverse('detalle_alerta', args=[alerta.id]))
+                enviar_sms(alerta, url)
                 messages.success(request, "SMS enviados a todos los usuarios registrados.")
             else:
                 messages.error(request, "No hay alertas activas para enviar.")
@@ -120,6 +104,8 @@ def sms_alert_view(request):
     return render(request, 'core/admin/sms_alert.html', {
         'total_registrados': total
     })
+
+
 
 def detalle_alerta(request, pk):
     alerta = get_object_or_404(AlertaAmber, pk=pk)
