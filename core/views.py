@@ -57,6 +57,7 @@ def crear_alerta(request):
             enviar_sms(alerta, url)
 
             messages.success(request, "✅ Alerta creada. Notificaciones enviadas (Web Push, Twitter y SMS).")
+
             return redirect('crear_alerta')
                
     else:

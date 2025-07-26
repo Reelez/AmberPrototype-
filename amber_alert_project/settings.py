@@ -8,7 +8,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
 
 INSTALLED_APPS = [
@@ -33,6 +32,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+
 ]
 
 ROOT_URLCONF = 'amber_alert_project.urls'
@@ -75,7 +75,7 @@ else:
 VAPID_PUBLIC_KEY = config('VAPID_PUBLIC_KEY')
 VAPID_PRIVATE_KEY = config('VAPID_PRIVATE_KEY')
 VAPID_CLAIMS = {
-    "sub": "mailto:uproyectoamber@gmail.com",
+    "sub": "mailto:uproyectoamber@gmail.com"
 }
 
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')

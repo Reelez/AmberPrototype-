@@ -2,6 +2,7 @@ from django import forms
 from .models import AlertaAmber
 
 class AlertaAmberForm(forms.ModelForm):
+
     class Meta:
         model = AlertaAmber
         exclude = ['numero_reporte', 'activa']
@@ -27,3 +28,4 @@ class AlertaAmberForm(forms.ModelForm):
             'señas_particulares': 'Señas particulares (si aplica)',
             'otros_detalles': 'Otros detalles',
         }
+
