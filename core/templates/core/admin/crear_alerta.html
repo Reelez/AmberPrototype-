@@ -7,16 +7,116 @@
 <h1>Crear Alerta Amber</h1>
 
 {% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      {% for message in messages %}
+        Swal.fire({
+          icon: '{% if message.tags == "success" %}success{% elif message.tags == "error" %}error{% else %}info{% endif %}',
+          title: '{{ message|escapejs }}',
+          showConfirmButton: false,
+          timer: 3000
+        });
+      {% endfor %}
+    });
+  </script>
 {% endif %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enviar Alerta</button>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<form method="POST" enctype="multipart/form-data" class="formulario-alerta">
+  {% csrf_token %}
+  <div class="form-grid">
+    
+    <!-- Información principal -->
+    <fieldset>
+      <legend>Información personal</legend>
+      
+      <label for="{{ form.nombre_desaparecido.id_for_label }}">{{ form.nombre_desaparecido.label }}</label>
+      {{ form.nombre_desaparecido }}
+      {{ form.nombre_desaparecido.errors }}
+
+      <label for="{{ form.edad.id_for_label }}">{{ form.edad.label }}</label>
+      {{ form.edad }}
+      {{ form.edad.errors }}
+
+      <label for="{{ form.genero.id_for_label }}">{{ form.genero.label }}</label>
+      {{ form.genero }}
+      {{ form.genero.errors }}
+    </fieldset>
+
+    <!-- Última vez visto -->
+    <fieldset>
+      <legend>Última vez visto</legend>
+
+      <label for="{{ form.ultima_ubicacion.id_for_label }}">{{ form.ultima_ubicacion.label }}</label>
+      {{ form.ultima_ubicacion }}
+      {{ form.ultima_ubicacion.errors }}
+
+      <label for="{{ form.fecha_desaparicion.id_for_label }}">{{ form.fecha_desaparicion.label }}</label>
+      {{ form.fecha_desaparicion }}
+      {{ form.fecha_desaparicion.errors }}
+
+      <label for="{{ form.hora_desaparicion.id_for_label }}">{{ form.hora_desaparicion.label }}</label>
+      {{ form.hora_desaparicion }}
+      {{ form.hora_desaparicion.errors }}
+    </fieldset>
+
+    <!-- Imagen -->
+    <fieldset>
+      <legend>Fotografía</legend>
+
+      <label for="{{ form.imagen.id_for_label }}">{{ form.imagen.label }}</label>
+      {{ form.imagen }}
+      {{ form.imagen.errors }}
+    </fieldset>
+
+    <!-- Características físicas -->
+    <fieldset>
+      <legend>Características físicas</legend>
+
+      <label for="{{ form.estatura.id_for_label }}">{{ form.estatura.label }}</label>
+      {{ form.estatura }}
+      {{ form.estatura.errors }}
+
+      <label for="{{ form.contextura.id_for_label }}">{{ form.contextura.label }}</label>
+      {{ form.contextura }}
+      {{ form.contextura.errors }}
+
+      <label for="{{ form.tipo_cabello.id_for_label }}">{{ form.tipo_cabello.label }}</label>
+      {{ form.tipo_cabello }}
+      {{ form.tipo_cabello.errors }}
+
+      <label for="{{ form.color_cabello.id_for_label }}">{{ form.color_cabello.label }}</label>
+      {{ form.color_cabello }}
+      {{ form.color_cabello.errors }}
+
+      <label for="{{ form.color_ojos.id_for_label }}">{{ form.color_ojos.label }}</label>
+      {{ form.color_ojos }}
+      {{ form.color_ojos.errors }}
+
+      <label for="{{ form.color_piel.id_for_label }}">{{ form.color_piel.label }}</label>
+      {{ form.color_piel }}
+      {{ form.color_piel.errors }}
+    </fieldset>
+
+    <!-- Señales y detalles -->
+    <fieldset>
+      <legend>Señas particulares y otros detalles</legend>
+
+      <label for="{{ form.señas_particulares.id_for_label }}">{{ form.señas_particulares.label }}</label>
+      {{ form.señas_particulares }}
+      {{ form.señas_particulares.errors }}
+
+      <label for="{{ form.otros_detalles.id_for_label }}">{{ form.otros_detalles.label }}</label>
+      {{ form.otros_detalles }}
+      {{ form.otros_detalles.errors }}
+    </fieldset>
+
+    <div class="submit-wrapper">
+      <button type="submit" class="btn btn-primary">Enviar alerta</button>
+    </div>
+
+  </div>
 </form>
+
 {% endblock %}
