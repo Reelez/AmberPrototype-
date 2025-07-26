@@ -57,9 +57,9 @@ def crear_alerta(request):
             enviar_sms(alerta, url)
 
             messages.success(request, "✅ Alerta creada. Notificaciones enviadas (Web Push, Twitter y SMS).")
-            form = AlertaAmberForm()
-        else:
-            print(form.errors)
+
+            return redirect('crear_alerta')
+               
     else:
         form = AlertaAmberForm()
 

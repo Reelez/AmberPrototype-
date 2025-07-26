@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from decouple import config, Csv
 import dj_database_url
+from cryptography.fernet import Fernet
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,11 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',  # Required for django-allauth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.twitter_oauth2',  # Twitter OAuth 2.0
+    'django.contrib.sites',  
     'core',
     'notificaciones',
     'django_extensions',
@@ -34,8 +31,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  # Required for django-allauth
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+
 ]
 
 ROOT_URLCONF = 'amber_alert_project.urls'
