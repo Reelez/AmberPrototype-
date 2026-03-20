@@ -10,13 +10,36 @@
     <link rel="stylesheet" href="{% static 'estilos_admin.css' %}" />
 </head>
 <body>
-    <header>
-        <h1>Sistema Alerta AMBER</h1>
-        <nav>
-            <a href="{% url 'dashboard' %}">Dashboard</a> |
-            <a href="{% url 'crear_alerta' %}">Crear Alerta</a> |
-        </nav>
-    </header>
+<header>
+    <h1>Sistema Alerta AMBER</h1>
+
+<nav style="
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 1rem;
+">
+    <!-- Enlaces centrados -->
+    <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'crear_alerta' %}">Crear Alerta</a>
+        <a href="{% url 'sms' %}">Usuarios SMS</a>
+    </div>
+
+    <!-- Espaciador opcional -->
+    <div></div>
+
+    <!-- Botón de logout bien contenido -->
+    <form method="post" action="{% url 'logout' %}" id="logout-form">
+        {% csrf_token %}
+        <button type="submit" id="logout-button" title="Cerrar sesión">CERRAR SESIÓN</button>
+    </form>
+</nav>
+
+</header>
+
+
+
     <hr />
     
     {# Bloque para mostrar la lista de alertas solo donde se defina #}

@@ -2,6 +2,7 @@ from django.urls import path, re_path
 from . import views
 from django.views.static import serve
 from django.conf import settings
+from django.contrib.auth.views import LogoutView
 
 # Vistas admin
 admin_patterns = [
@@ -10,6 +11,11 @@ admin_patterns = [
     path('admin/alertas/', views.lista_alertas_admin, name='lista_alertas_admin'),
     path('cambiar-estado-alerta/<int:pk>/', views.cambiar_estado_alerta, name='cambiar_estado_alerta'),
     path('sms-alert/', views.sms_alert_view, name='sms_alert'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('sms/', views.lista_usuarios_sms, name='sms'),
+    path('sms/eliminar/<int:pk>/', views.eliminar_usuario_sms, name='eliminar_usuario_sms'),
+
+
 ]
 
 # Vistas públicas

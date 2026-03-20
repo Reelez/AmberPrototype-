@@ -7,6 +7,10 @@ from cryptography.fernet import Fernet
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
+
+RECAPTCHA_SITE_KEY = config('RECAPTCHA_SITE_KEY')
+RECAPTCHA_SECRET_KEY = config('RECAPTCHA_SECRET_KEY')
+
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
@@ -75,7 +79,7 @@ else:
 VAPID_PUBLIC_KEY = config('VAPID_PUBLIC_KEY')
 VAPID_PRIVATE_KEY = config('VAPID_PRIVATE_KEY')
 VAPID_CLAIMS = {
-    "sub": "mailto:uproyectoamber@gmail.com",
+    "sub": "mailto:uproyectoamber@gmail.com"
 }
 
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')

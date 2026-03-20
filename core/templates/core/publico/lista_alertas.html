@@ -1,7 +1,7 @@
 {% extends 'core/publico/baseUsuario.html' %}
 
 {% block content %}
-<h2>🚨 Alertas AMBER Activas</h2>
+<h2>Alertas AMBER Activas</h2>
 
 <div class="alerta-container">
   {% for alerta in alertas %}
@@ -19,7 +19,7 @@
     </a>
   {% empty %}
     <div class="no-alertas">
-      <p>✅ No hay alertas activas en este momento.</p>
+      <p>No hay alertas activas en este momento.</p>
       <p>Mantente atento a futuras publicaciones.</p>
     </div>
   {% endfor %}

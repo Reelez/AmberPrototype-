@@ -21,7 +21,7 @@ class AlertaAmber(models.Model):
     imagen = models.ImageField(upload_to='alertas_imagenes/')  # Foto
    
     #Características físicas detalladas
-    estatura = models.CharField(max_length=50)  
+    estatura = models.PositiveIntegerField()  
     contextura = models.CharField(max_length=50) 
     tipo_cabello = models.CharField(max_length=50)  
     color_cabello = models.CharField(max_length=50)  

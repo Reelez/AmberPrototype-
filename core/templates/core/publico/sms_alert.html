@@ -1,0 +1,64 @@
+{% extends 'core/publico/baseUsuario.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'sms.css' %}" />
+
+<h2>Registro de Teléfonos para Alertas SMS</h2>
+
+<form id="registroForm" method="post">
+    {% csrf_token %}
+    
+    <div style="margin-bottom: 1rem;">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+        <label for="telefono">Teléfono (8 dígitos):</label><br>
+        <input type="text" id="telefono" name="telefono" pattern="\d{8}" placeholder="60000000" required>
+    </div>
+
+    <div style="margin: 10px 0;">
+        <label>
+            <input type="checkbox" name="acepta_alertas" required>
+            Acepto recibir alertas SMS en este número.
+        </label>
+    </div>
+
+    <!-- Campo oculto para el token reCAPTCHA v3 -->
+    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+
+    <div style="margin-top: 1rem;">
+        <input type="hidden" name="accion" value="registrar">
+        <button type="submit" name="registrar">Registrar</button>
+    </div>
+</form>
+
+<hr>
+
+{% for message in messages %}
+    <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">
+        {{ message }}
+    </p>
+{% endfor %}
+
+<!-- Script para reCAPTCHA v3 -->
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
+<script>
+grecaptcha.ready(function() {
+    document.getElementById('registroForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // evita envío inmediato
+
+        grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', {action: 'registro'}).then(function(token) {
+            // Poner el token en el input oculto
+            document.getElementById('g-recaptcha-response').value = token;
+
+            // Ahora sí enviamos el formulario
+            event.target.submit();
+        });
+    });
+});
+</script>
+
+{% endblock %}

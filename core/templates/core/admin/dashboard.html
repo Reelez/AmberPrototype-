@@ -2,6 +2,8 @@
 
 {% block title %}Dashboard{% endblock %}
 
+<p><strong>Usuarios registrados:</strong> {{ total_registrados }}</p>
+
 {% block content %}
     {% include 'core/admin/lista_alertas_admin.html' %}
 {% endblock %}

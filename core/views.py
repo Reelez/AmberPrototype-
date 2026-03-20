@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from twilio.rest import Client
 from core.services.webpush_service import enviar_web_push
 from core.services.sms_service import enviar_sms
+from .services.recaptcha_service import verificar_recaptcha
 
 
 
@@ -53,10 +54,10 @@ def crear_alerta(request):
             mensaje = f"Última ubicación: {alerta.ultima_ubicacion}. Reporta al 104"
             enviar_web_push(titulo, mensaje, url)
 
-            # 2 Enviar SMS
+            # 2 Enviar SMS 
             enviar_sms(alerta, url)
 
-            messages.success(request, "✅ Alerta creada. Notificaciones enviadas (Web Push, Twitter y SMS).")
+            messages.success(request, "Alerta creada. Notificaciones enviadas (Web Push y SMS).")
             return redirect('crear_alerta')
                
     else:
@@ -66,19 +67,36 @@ def crear_alerta(request):
     return render(request, 'core/admin/crear_alerta.html', {'form': form, 'alertas': alertas})
 
 
-
-@staff_member_required
+#vista sms admin registro numero
 def sms_alert_view(request):
     if request.method == 'POST':
-        if 'registrar' in request.POST:
-            nombre = request.POST['nombre']
-            telefono = "+507" + request.POST['telefono'].strip()
+        # Verificar reCAPTCHA
+        if not verificar_recaptcha(request.POST.get('g-recaptcha-response')):
+            messages.error(request, "Error de verificación reCAPTCHA.")
+            return redirect('sms_alert')
 
-            if not UserSMS.objects.filter(telefono=telefono).exists():
+        if request.POST.get('accion') == 'registrar':
+            nombre = request.POST.get('nombre', '').strip()
+            telefono_input = request.POST.get('telefono', '').strip()
+            acepta = request.POST.get('acepta_alertas')
+
+            if not acepta:
+                messages.error(request, "Debes aceptar recibir alertas SMS.")
+                return redirect('sms_alert')
+
+            if not telefono_input or not nombre:
+                messages.error(request, "Faltan datos obligatorios.")
+                return redirect('sms_alert')
+
+            # Limpiar número: quitar espacios, guiones, etc. y anteponer +507
+            telefono_limpio = ''.join(filter(str.isdigit, telefono_input))
+            telefono = "+507" + telefono_limpio
+
+            if UserSMS.objects.filter(telefono=telefono).exists():
+                messages.info(request, f"El número {telefono} ya está registrado.")
+            else:
                 UserSMS.objects.create(nombre=nombre, telefono=telefono)
                 messages.success(request, "Número registrado correctamente.")
-            else:
-                messages.info(request, "Este número ya está registrado.")
 
         elif 'enviar_sms' in request.POST:
             alerta = AlertaAmber.objects.filter(activa=True).last()
@@ -92,8 +110,9 @@ def sms_alert_view(request):
         return redirect('sms_alert')
 
     total = UserSMS.objects.count()
-    return render(request, 'core/admin/sms_alert.html', {
-        'total_registrados': total
+    return render(request, 'core/publico/sms_alert.html', {
+        'total_registrados': total,
+        'RECAPTCHA_SITE_KEY': settings.RECAPTCHA_SITE_KEY
     })
 
 
@@ -117,6 +136,19 @@ def lista_alertas_admin(request):
     })
 
 @staff_member_required
+def lista_usuarios_sms(request):
+    usuarios = UserSMS.objects.all().order_by('-registrado_en')
+    return render(request, 'core/admin/lista_usuarios_sms.html', {'usuarios': usuarios})
+
+@staff_member_required
+def eliminar_usuario_sms(request, pk):
+    usuario = get_object_or_404(UserSMS, pk=pk)
+    usuario.delete()
+    messages.success(request, f"El usuario {usuario.nombre} ha sido eliminado.")
+    return redirect('sms')
+
+
+@staff_member_required
 def cambiar_estado_alerta(request, pk):
     alerta = get_object_or_404(AlertaAmber, pk=pk)
 
@@ -133,7 +165,7 @@ def cambiar_estado_alerta(request, pk):
     return redirect('dashboard')
 
 
-#vista sms admin registro numero
+
 
 
 

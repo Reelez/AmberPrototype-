@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 *.py[cod]
 *$py.class
+__pycache__/
 
 # Entorno virtual
 venv/
@@ -14,9 +15,9 @@ env/
 # Archivos de base de datos SQLite (si usas)
 *.sqlite3
 
-
-
-
+# Django: archivos generados
+media/
+staticfiles/
 
 # Archivos de logs
 *.log
@@ -28,5 +29,3 @@ env/
 
 # MacOS
 .DS_Store
-
-
