@@ -1,5 +1,5 @@
-
 {% extends 'core/admin/base.html' %}
+{% load static %}
 
 {% block title %}Crear Alerta Amber{% endblock %}
 
@@ -23,100 +23,229 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<form method="POST" enctype="multipart/form-data" class="formulario-alerta">
+<!-- Indicador de progreso -->
+<ol class="wizard-progreso" id="wizard-progreso">
+  <li data-paso="1" class="activo">1<span>Datos personales</span></li>
+  <li data-paso="2">2<span>Última vez visto</span></li>
+  <li data-paso="3">3<span>Fotografía</span></li>
+  <li data-paso="4">4<span>Características</span></li>
+  <li data-paso="5">5<span>Detalles</span></li>
+  <li data-paso="6">6<span>Resumen</span></li>
+</ol>
+
+<form method="POST" enctype="multipart/form-data" class="formulario-alerta wizard" id="form-crear-alerta">
   {% csrf_token %}
-  <div class="form-grid">
-    
-    <!-- Información principal -->
-    <fieldset>
-      <legend>Información personal</legend>
-      
-      <label for="{{ form.nombre_desaparecido.id_for_label }}">{{ form.nombre_desaparecido.label }}</label>
-      {{ form.nombre_desaparecido }}
-      {{ form.nombre_desaparecido.errors }}
 
-      <label for="{{ form.edad.id_for_label }}">{{ form.edad.label }}</label>
-      {{ form.edad }}
-      {{ form.edad.errors }}
+  <!-- Paso 1: Información principal -->
+  <fieldset class="wizard-paso" data-paso="1">
+    <legend>Información personal</legend>
 
-      <label for="{{ form.genero.id_for_label }}">{{ form.genero.label }}</label>
-      {{ form.genero }}
-      {{ form.genero.errors }}
-    </fieldset>
+    <label for="{{ form.nombre_desaparecido.id_for_label }}">{{ form.nombre_desaparecido.label }}</label>
+    {{ form.nombre_desaparecido }}
+    {{ form.nombre_desaparecido.errors }}
 
-    <!-- Última vez visto -->
-    <fieldset>
-      <legend>Última vez visto</legend>
+    <label for="{{ form.edad.id_for_label }}">{{ form.edad.label }}</label>
+    {{ form.edad }}
+    {{ form.edad.errors }}
 
-      <label for="{{ form.ultima_ubicacion.id_for_label }}">{{ form.ultima_ubicacion.label }}</label>
-      {{ form.ultima_ubicacion }}
-      {{ form.ultima_ubicacion.errors }}
+    <label for="{{ form.genero.id_for_label }}">{{ form.genero.label }}</label>
+    {{ form.genero }}
+    {{ form.genero.errors }}
+  </fieldset>
 
-      <label for="{{ form.fecha_desaparicion.id_for_label }}">{{ form.fecha_desaparicion.label }}</label>
-      {{ form.fecha_desaparicion }}
-      {{ form.fecha_desaparicion.errors }}
+  <!-- Paso 2: Última vez visto -->
+  <fieldset class="wizard-paso" data-paso="2" hidden>
+    <legend>Última vez visto</legend>
 
-      <label for="{{ form.hora_desaparicion.id_for_label }}">{{ form.hora_desaparicion.label }}</label>
-      {{ form.hora_desaparicion }}
-      {{ form.hora_desaparicion.errors }}
-    </fieldset>
+    <label for="{{ form.ultima_ubicacion.id_for_label }}">{{ form.ultima_ubicacion.label }}</label>
+    {{ form.ultima_ubicacion }}
+    {{ form.ultima_ubicacion.errors }}
 
-    <!-- Imagen -->
-    <fieldset>
-      <legend>Fotografía</legend>
+    <label for="{{ form.fecha_desaparicion.id_for_label }}">{{ form.fecha_desaparicion.label }}</label>
+    {{ form.fecha_desaparicion }}
+    {{ form.fecha_desaparicion.errors }}
 
-      <label for="{{ form.imagen.id_for_label }}">{{ form.imagen.label }}</label>
-      {{ form.imagen }}
-      {{ form.imagen.errors }}
-    </fieldset>
+    <label for="{{ form.hora_desaparicion.id_for_label }}">{{ form.hora_desaparicion.label }}</label>
+    {{ form.hora_desaparicion }}
+    {{ form.hora_desaparicion.errors }}
+  </fieldset>
 
-    <!-- Características físicas -->
-    <fieldset>
-      <legend>Características físicas</legend>
+  <!-- Paso 3: Imagen -->
+  <fieldset class="wizard-paso" data-paso="3" hidden>
+    <legend>Fotografía</legend>
 
-      <label for="{{ form.estatura.id_for_label }}">{{ form.estatura.label }}</label>
-      {{ form.estatura }}
-      {{ form.estatura.errors }}
+    <label for="{{ form.imagen.id_for_label }}">{{ form.imagen.label }}</label>
+    {{ form.imagen }}
+    {{ form.imagen.errors }}
+    <img id="wizard-imagen-preview" class="wizard-imagen-preview" hidden alt="Vista previa">
+  </fieldset>
 
-      <label for="{{ form.contextura.id_for_label }}">{{ form.contextura.label }}</label>
-      {{ form.contextura }}
-      {{ form.contextura.errors }}
+  <!-- Paso 4: Características físicas -->
+  <fieldset class="wizard-paso" data-paso="4" hidden>
+    <legend>Características físicas</legend>
 
-      <label for="{{ form.tipo_cabello.id_for_label }}">{{ form.tipo_cabello.label }}</label>
-      {{ form.tipo_cabello }}
-      {{ form.tipo_cabello.errors }}
+    <label for="{{ form.estatura.id_for_label }}">{{ form.estatura.label }}</label>
+    {{ form.estatura }}
+    {{ form.estatura.errors }}
 
-      <label for="{{ form.color_cabello.id_for_label }}">{{ form.color_cabello.label }}</label>
-      {{ form.color_cabello }}
-      {{ form.color_cabello.errors }}
+    <label for="{{ form.contextura.id_for_label }}">{{ form.contextura.label }}</label>
+    {{ form.contextura }}
+    {{ form.contextura.errors }}
 
-      <label for="{{ form.color_ojos.id_for_label }}">{{ form.color_ojos.label }}</label>
-      {{ form.color_ojos }}
-      {{ form.color_ojos.errors }}
+    <label for="{{ form.tipo_cabello.id_for_label }}">{{ form.tipo_cabello.label }}</label>
+    {{ form.tipo_cabello }}
+    {{ form.tipo_cabello.errors }}
 
-      <label for="{{ form.color_piel.id_for_label }}">{{ form.color_piel.label }}</label>
-      {{ form.color_piel }}
-      {{ form.color_piel.errors }}
-    </fieldset>
+    <label for="{{ form.color_cabello.id_for_label }}">{{ form.color_cabello.label }}</label>
+    {{ form.color_cabello }}
+    {{ form.color_cabello.errors }}
 
-    <!-- Señales y detalles -->
-    <fieldset>
-      <legend>Señas particulares y otros detalles</legend>
+    <label for="{{ form.color_ojos.id_for_label }}">{{ form.color_ojos.label }}</label>
+    {{ form.color_ojos }}
+    {{ form.color_ojos.errors }}
 
-      <label for="{{ form.señas_particulares.id_for_label }}">{{ form.señas_particulares.label }}</label>
-      {{ form.señas_particulares }}
-      {{ form.señas_particulares.errors }}
+    <label for="{{ form.color_piel.id_for_label }}">{{ form.color_piel.label }}</label>
+    {{ form.color_piel }}
+    {{ form.color_piel.errors }}
+  </fieldset>
 
-      <label for="{{ form.otros_detalles.id_for_label }}">{{ form.otros_detalles.label }}</label>
-      {{ form.otros_detalles }}
-      {{ form.otros_detalles.errors }}
-    </fieldset>
+  <!-- Paso 5: Señales y detalles -->
+  <fieldset class="wizard-paso" data-paso="5" hidden>
+    <legend>Señas particulares y otros detalles</legend>
 
-    <div class="submit-wrapper">
-      <button type="submit" class="btn btn-primary">Enviar alerta</button>
+    <label for="{{ form.señas_particulares.id_for_label }}">{{ form.señas_particulares.label }}</label>
+    {{ form.señas_particulares }}
+    {{ form.señas_particulares.errors }}
+
+    <label for="{{ form.otros_detalles.id_for_label }}">{{ form.otros_detalles.label }}</label>
+    {{ form.otros_detalles }}
+    {{ form.otros_detalles.errors }}
+  </fieldset>
+
+  <!-- Paso 6: Resumen -->
+  <fieldset class="wizard-paso" data-paso="6" hidden>
+    <legend>Resumen: revisá los datos antes de enviar</legend>
+    <div class="wizard-resumen-layout">
+      <dl class="wizard-resumen" id="wizard-resumen"></dl>
+      <img id="wizard-resumen-imagen" class="wizard-resumen-imagen" hidden alt="Fotografía del menor">
     </div>
+  </fieldset>
 
+  <div class="wizard-navegacion">
+    <button type="button" class="btn btn-secundario" id="wizard-atras" hidden>Atrás</button>
+    <button type="button" class="btn btn-primario" id="wizard-siguiente">Siguiente</button>
+    <button type="submit" class="btn btn-primario" id="wizard-enviar" hidden>Enviar alerta</button>
   </div>
+
 </form>
+
+<script>
+(function () {
+  const form = document.getElementById('form-crear-alerta');
+  const pasos = Array.from(form.querySelectorAll('.wizard-paso'));
+  const progresoItems = Array.from(document.querySelectorAll('#wizard-progreso li'));
+  const btnAtras = document.getElementById('wizard-atras');
+  const btnSiguiente = document.getElementById('wizard-siguiente');
+  const btnEnviar = document.getElementById('wizard-enviar');
+  const totalPasos = pasos.length;
+  let pasoActual = 1;
+
+  function mostrarPaso(n) {
+    pasos.forEach(p => {
+      p.hidden = Number(p.dataset.paso) !== n;
+    });
+    progresoItems.forEach(li => {
+      const num = Number(li.dataset.paso);
+      li.classList.toggle('activo', num === n);
+      li.classList.toggle('completado', num < n);
+    });
+    btnAtras.hidden = n === 1;
+    btnSiguiente.hidden = n === totalPasos;
+    btnEnviar.hidden = n !== totalPasos;
+    if (n === totalPasos) construirResumen();
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function pasoValido(n) {
+    const campos = pasos.find(p => Number(p.dataset.paso) === n)
+      .querySelectorAll('input, select, textarea');
+    for (const campo of campos) {
+      if (!campo.checkValidity()) {
+        campo.reportValidity();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function etiquetaDe(campo) {
+    const label = form.querySelector('label[for="' + campo.id + '"]');
+    return label ? label.textContent : campo.name;
+  }
+
+  function valorDe(campo) {
+    if (campo.tagName === 'SELECT') {
+      const opcion = campo.options[campo.selectedIndex];
+      return opcion ? opcion.text : '—';
+    }
+    if (campo.type === 'file') {
+      return campo.files.length ? campo.files[0].name : 'Sin archivo';
+    }
+    return campo.value ? campo.value : '—';
+  }
+
+  function construirResumen() {
+    const resumen = document.getElementById('wizard-resumen');
+    resumen.innerHTML = '';
+    pasos.forEach(p => {
+      if (Number(p.dataset.paso) === totalPasos) return;
+      p.querySelectorAll('input, select, textarea').forEach(campo => {
+        if (campo.type === 'hidden' || campo.type === 'file') return;
+        const dt = document.createElement('dt');
+        dt.textContent = etiquetaDe(campo);
+        const dd = document.createElement('dd');
+        dd.textContent = valorDe(campo);
+        resumen.appendChild(dt);
+        resumen.appendChild(dd);
+      });
+    });
+
+    const resumenImagen = document.getElementById('wizard-resumen-imagen');
+    if (previewImagen && !previewImagen.hidden) {
+      resumenImagen.src = previewImagen.src;
+      resumenImagen.hidden = false;
+    } else {
+      resumenImagen.hidden = true;
+    }
+  }
+
+  btnSiguiente.addEventListener('click', () => {
+    if (!pasoValido(pasoActual)) return;
+    pasoActual = Math.min(pasoActual + 1, totalPasos);
+    mostrarPaso(pasoActual);
+  });
+
+  btnAtras.addEventListener('click', () => {
+    pasoActual = Math.max(pasoActual - 1, 1);
+    mostrarPaso(pasoActual);
+  });
+
+  const inputImagen = document.getElementById('{{ form.imagen.id_for_label }}');
+  const previewImagen = document.getElementById('wizard-imagen-preview');
+  if (inputImagen) {
+    inputImagen.addEventListener('change', () => {
+      const archivo = inputImagen.files[0];
+      if (!archivo) {
+        previewImagen.hidden = true;
+        return;
+      }
+      previewImagen.src = URL.createObjectURL(archivo);
+      previewImagen.hidden = false;
+    });
+  }
+
+  mostrarPaso(pasoActual);
+})();
+</script>
 
 {% endblock %}

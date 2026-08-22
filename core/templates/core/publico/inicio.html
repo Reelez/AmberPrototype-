@@ -3,39 +3,53 @@
 {% block title %}Inicio - Alerta AMBER Panamá{% endblock %}
 
 {% block content %}
-<h2>Bienvenido al Prototipo de Alerta AMBER Panamá</h2>
 
-<p>El programa <strong>Alerta AMBER</strong> tiene como objetivo la búsqueda y localización inmediata de niños, niñas y adolescentes desaparecidos en la República de Panamá. Este sistema permite difundir alertas de manera rápida a la ciudadanía para que colaboren en la localización de los menores reportados.</p>
+<section class="hero">
+    <h2>Sistema Nacional de Alerta AMBER de Panamá</h2>
+    <p class="hero-lead">
+        Búsqueda y localización inmediata de niños, niñas y adolescentes desaparecidos en la
+        República de Panamá, mediante la difusión rápida de alertas a la ciudadanía.
+    </p>
+    <div class="hero-acciones">
+        <a href="{% url 'lista_alertas' %}" class="btn btn-primario">Ver alertas activas</a>
+    </div>
+    <p class="hero-recordatorio">📞 Recuerda llamar al 104 en caso que tengas información importante.</p>
+</section>
 
-<h3>¿Qué es una Alerta AMBER?</h3>
-<p>Es una notificación urgente difundida a través de diversos medios de comunicación y plataformas digitales cuando un menor ha sido reportado como desaparecido y se sospecha que puede estar en peligro. Su propósito es movilizar a la sociedad para facilitar su localización segura.</p>
+<section class="seccion-info">
+    <div class="tarjeta-info">
+        <h3>¿Qué es una Alerta AMBER?</h3>
+        <p>
+            Es una notificación urgente difundida a través de diversos medios de comunicación y
+            plataformas digitales cuando un menor ha sido reportado como desaparecido y se sospecha
+            que puede estar en peligro. Su propósito es movilizar a la sociedad para facilitar su
+            localización segura.
+        </p>
+    </div>
 
-<h3>¿Cómo puedes ayudar?</h3>
-<ul>
-    <li>Revisa frecuentemente las <a href="{% url 'lista_alertas' %}">alertas activas</a> publicadas en esta página.</li>
-    <li>Si reconoces a alguna persona desaparecida, llama inmediatamente al <strong>104</strong> o al número de contacto especificado en cada alerta.</li>
-    <li>Comparte las alertas con familiares y amigos para aumentar las posibilidades de localización.</li>
-</ul>
+    <div class="tarjeta-info">
+        <h3>¿Cómo puedes ayudar?</h3>
+        <ul class="lista-check">
+            <li>Revisa frecuentemente las <a href="{% url 'lista_alertas' %}">alertas activas</a> publicadas en esta página.</li>
+            <li>Si reconoces a alguna persona desaparecida, llama inmediatamente al <strong>104</strong> o al número de contacto especificado en cada alerta.</li>
+            <li>Comparte las alertas con familiares y amigos para aumentar las posibilidades de localización.</li>
+        </ul>
+    </div>
+</section>
 
-<h3>Recibe alertas por SMS</h3>
-<p>¿No siempre estás conectado a internet? Puedes <strong>registrar tu número de celular</strong> para recibir alertas importantes vía SMS en tiempo real.</p>
+<section class="banda-contacto">
+    <h3>Contacto de emergencia</h3>
+    <div class="contacto-grid">
+        <div class="contacto-item">
+            <span class="contacto-etiqueta">Policía Nacional de Panamá</span>
+            <a href="tel:104" class="contacto-numero">104</a>
+        </div>
+        <div class="contacto-item">
+            <span class="contacto-etiqueta">Dirección de Investigación Judicial (DIJ)</span>
+            <a href="tel:5201000" class="contacto-numero">520-1000</a>
+        </div>
+    </div>
+    <p class="contacto-nota">Si tenés información relevante sobre alguna alerta activa, comunicate con las autoridades. Toda ayuda es fundamental.</p>
+</section>
 
-<ul>
-    <li>Es totalmente gratuito.</li>
-    <li>No se necesita descargar ninguna app.</li>
-    <li>Solo se te enviarán alertas de desaparecidos activas y confirmadas.</li>
-</ul>
-
-<p style="margin-top:1rem;">
-    <a href="{% url 'sms_alert' %}" style="background-color: #0066CC; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">
-        Registrar mi número para recibir alertas SMS
-    </a>
-</p>
-
-<h3>Importante:</h3>
-<p>Si tienes información relevante sobre alguna alerta activa, no dudes en comunicarte con las autoridades. Toda ayuda es fundamental.</p>
-
-<h3>Contacto:</h3>
-<p>Policía Nacional de Panamá: <strong>104</strong></p>
-<p>Dirección de Investigación Judicial (DIJ): <strong>520-1000</strong></p>
 {% endblock %}

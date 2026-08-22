@@ -8,14 +8,10 @@ from django.contrib.auth.views import LogoutView
 admin_patterns = [
     path('crear-alerta/', views.crear_alerta, name='crear_alerta'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('admin/alertas/', views.lista_alertas_admin, name='lista_alertas_admin'),
+    path('panel/alertas/', views.lista_alertas_admin, name='lista_alertas_admin'),
+    path('panel/alertas/<int:pk>/', views.detalle_alerta_admin, name='detalle_alerta_admin'),
     path('cambiar-estado-alerta/<int:pk>/', views.cambiar_estado_alerta, name='cambiar_estado_alerta'),
-    path('sms-alert/', views.sms_alert_view, name='sms_alert'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
-    path('sms/', views.lista_usuarios_sms, name='sms'),
-    path('sms/eliminar/<int:pk>/', views.eliminar_usuario_sms, name='eliminar_usuario_sms'),
-
-
 ]
 
 # Vistas públicas

@@ -1,339 +1,275 @@
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Colores, tipografía, header/nav/footer y reset viven en base.css */
 
-/* Variables de colores panameños */
-:root {
-    --rojo-panama: #DC143C;
-    --azul-panama: #0066CC;
-    --blanco-panama: #FFFFFF;
-    --gris-claro: #F8F9FA;
-    --gris-oscuro: #343A40;
-    --sombra: rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos generales */
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: var(--gris-oscuro);
-    background: linear-gradient(135deg, var(--blanco-panama) 0%, var(--gris-claro) 100%);
-    min-height: 100vh;
-}
-
-/* Header */
-header {
-    background: linear-gradient(135deg, var(--rojo-panama) 0%, var(--azul-panama) 100%);
-    color: var(--blanco-panama);
-    padding: 2rem 0;
-    text-align: center;
-    box-shadow: 0 4px 6px var(--sombra);
-    position: relative;
-}
-
-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
-    animation: shine 3s infinite;
-}
-
-@keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
-}
-
-/* Navegación */
-nav {
-    position: relative;
-    z-index: 1;
-}
-
-nav a {
-    color: var(--blanco-panama);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid transparent;
-}
-
-nav a:hover {
-    background: var(--blanco-panama);
-    color: var(--rojo-panama);
-    border-color: var(--blanco-panama);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Línea divisoria */
-hr {
-    border: none;
-    height: 3px;
-    background: linear-gradient(90deg, var(--rojo-panama), var(--blanco-panama), var(--azul-panama));
-    margin: 0;
-}
-
-/* Contenido principal */
-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-/* Títulos */
 h2 {
-    color: var(--rojo-panama);
+    color: var(--azul-oscuro);
     font-size: 2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-align: center;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--rojo-panama), var(--azul-panama));
-    border-radius: 2px;
 }
 
 h3 {
     color: var(--azul-panama);
-    font-size: 1.5rem;
-    margin: 1.5rem 0 1rem 0;
-    border-left: 4px solid var(--rojo-panama);
-    padding-left: 1rem;
+    font-size: 1.3rem;
+    margin: 0 0 0.75rem 0;
 }
 
-/* Párrafos */
 p {
     margin-bottom: 1rem;
-    text-align: justify;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
 }
 
-/* Listas */
-ul {
-    margin: 1rem 0;
-    padding-left: 0;
-}
-
-li {
-    background: var(--blanco-panama);
-    margin: 0.5rem 0;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px var(--sombra);
-    border-left: 4px solid var(--azul-panama);
-    list-style: none;
-    position: relative;
-    transition: transform 0.2s ease;
-}
-
-li:hover {
-    transform: translateX(5px);
-}
-
-li::before {
-    margin-right: 0.5rem;
-}
-
-/* Enlaces */
-a {
-    color: var(--azul-panama);
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: var(--rojo-panama);
-    text-decoration: underline;
-}
-
-/* Texto fuerte */
 strong {
     color: var(--rojo-panama);
-    font-weight: bold;
 }
 
-/* Sección de contacto */
-p:has(strong) {
-    background: var(--gris-claro);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 2px solid var(--azul-panama);
-    margin: 1rem 0;
-}
-
-/* Alertas AMBER */
-.alerta-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.alerta-card {
-    background: var(--blanco-panama);
-    border-radius: 15px;
-    padding: 1.5rem;
-    box-shadow: 0 8px 16px var(--sombra);
-    border: 3px solid var(--rojo-panama);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.alerta-card::before {
-    content: 'ALERTA AMBER';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--rojo-panama);
+/* ===== Hero (inicio) ===== */
+.hero {
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-panama) 100%);
     color: var(--blanco-panama);
-    padding: 0.5rem;
     text-align: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    padding: 3rem 1.5rem;
+    border-radius: var(--radio-card);
+    margin-bottom: 2rem;
 }
 
-.alerta-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(220, 20, 60, 0.3);
+.hero h2 {
+    color: var(--blanco-panama);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
 }
 
-.alerta-card h3 {
-    color: var(--rojo-panama);
-    font-size: 1.3rem;
-    margin: 2rem 0 1rem 0;
-    border: none;
-    padding: 0;
+.hero-lead {
+    max-width: 700px;
+    margin: 0 auto 1.75rem;
+    font-size: 1.1rem;
+    color: var(--celeste-panama);
+}
+
+.hero-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.hero-recordatorio {
+    margin-top: 1.25rem;
+    color: var(--celeste-panama);
+    font-weight: 600;
+}
+
+.hero .btn-secundario {
+    background: transparent;
+    color: var(--blanco-panama);
+    border-color: var(--blanco-panama);
+}
+
+.hero .btn-secundario:hover {
+    background: var(--blanco-panama);
+    color: var(--azul-panama);
+}
+
+/* ===== Secciones de información (inicio) ===== */
+.seccion-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.tarjeta-info {
+    background: var(--blanco-panama);
+    border-radius: var(--radio-card);
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px var(--sombra);
+    min-width: 0;
+}
+
+.lista-check {
+    list-style: none;
+}
+
+.lista-check li {
+    position: relative;
+    padding-left: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.lista-check li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--verde-exito);
+    font-weight: 700;
+}
+
+.banda-contacto {
+    background: var(--blanco-panama);
+    border-radius: var(--radio-card);
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 8px var(--sombra);
     text-align: center;
+    margin-bottom: 2rem;
 }
 
-.alerta-card p {
-    margin: 0.5rem 0;
-    font-size: 1rem;
-    text-align: left;
+.contacto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.contacto-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.contacto-etiqueta {
+    font-weight: 600;
     color: var(--gris-oscuro);
 }
 
-.alerta-card img {
-    width: 100%;
-    max-width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin: 1rem auto;
-    display: block;
-    border: 3px solid var(--azul-panama);
+.contacto-numero {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--rojo-panama);
 }
 
-/* Mensaje cuando no hay alertas */
-.no-alertas {
+.contacto-nota {
+    color: var(--gris-oscuro);
+    font-size: 0.95rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== Listado de alertas activas ===== */
+.cabecera-pagina {
     text-align: center;
-    padding: 3rem;
-    background: var(--gris-claro);
-    border-radius: 15px;
-    border: 2px dashed var(--azul-panama);
-    color: var(--azul-panama);
-    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Footer */
-footer {
-    background: var(--gris-oscuro);
-    color: var(--blanco-panama);
-    text-align: center;
-    padding: 1rem;
-    margin-top: 3rem;
+.cabecera-subtitulo {
+    color: var(--gris-oscuro);
+    font-size: 1rem;
 }
 
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
+.alerta-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 1.8rem;
-    }
-    
-    nav a {
-        display: block;
-        margin: 0.5rem 0;
-    }
-    
-    main {
-        padding: 1rem;
-    }
-    
-    .alerta-container {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    h2 {
-        font-size: 1.5rem;
-    }
-}
-
-/* Animaciones adicionales */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
+/* Tarjeta horizontal: foto + info.
+   Mismo patrón visual que las tarjetas del panel admin
+   (acento lateral, badge de estado, estructura clara). */
 .alerta-card {
-    animation: pulse 2s infinite;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--blanco-panama);
+    border-radius: var(--radio-card);
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 4px 8px var(--sombra);
+    border-left: 6px solid var(--rojo-panama);
+    transition: all 0.25s ease;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
 }
 
 .alerta-card:hover {
-    animation: none;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px var(--sombra-fuerte);
+    text-decoration: none;
 }
 
-/* Efectos especiales para urgencia */
-.urgente {
-    border-color: var(--rojo-panama) !important;
-    background: linear-gradient(135deg, var(--blanco-panama) 0%, #FFE4E1 100%);
+.alerta-card-foto {
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--gris-claro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.urgente::before {
-    background: linear-gradient(45deg, var(--rojo-panama), #FF6B6B);
-    animation: blink 1s infinite;
+.alerta-card-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0.7; }
+.alerta-card-sin-foto {
+    font-size: 0.8rem;
+    color: var(--gris-oscuro);
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.alerta-card-info {
+    min-width: 0;
+}
+
+.alerta-card-info h3 {
+    color: var(--azul-oscuro);
+    font-size: 1.25rem;
+    margin: 0.4rem 0 0.5rem;
+}
+
+.alerta-card-info p {
+    margin: 0.2rem 0;
+    font-size: 0.95rem;
+    color: var(--gris-oscuro);
+}
+
+.alerta-card-recordatorio {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--rojo-panama);
+}
+
+.no-alertas {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: var(--gris-claro);
+    border-radius: var(--radio-card);
+    border: 2px dashed var(--azul-panama);
+    color: var(--azul-panama);
+    font-size: 1.1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
+
+    .hero {
+        padding: 2rem 1.25rem;
+    }
+
+    .hero h2 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .alerta-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .alerta-card-foto {
+        width: 100%;
+        height: 180px;
+        margin: 0 auto;
+    }
 }

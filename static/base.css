@@ -1,0 +1,505 @@
+/* ============================================================
+   Alerta AMBER Panamá — Design tokens & shared components
+   Paleta y tipografía alineadas a panamadigital.gob.pa
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
+
+:root {
+    /* Azules institucionales (gob.pa) */
+    --azul-panama: #154c7e;      /* primario: header, nav, links */
+    --azul-oscuro: #08296b;      /* footer, contraste fuerte */
+    --azul-claro: #328bfb;       /* acentos, hover, focus */
+    --celeste-panama: #a8d6f5;   /* texto sobre fondo oscuro */
+
+    /* Rojo bandera panameña */
+    --rojo-panama: #D52B1E;
+
+    --blanco-panama: #FFFFFF;
+    --gris-claro: #F8F9FA;
+    --gris-medio: #E9ECEF;
+    --gris-oscuro: #343A40;
+    --verde-exito: #28A745;
+    --amarillo-advertencia: #FFC107;
+
+    --sombra: rgba(0, 0, 0, 0.1);
+    --sombra-fuerte: rgba(0, 0, 0, 0.2);
+    --sombra-login: rgba(21, 76, 126, 0.35);
+
+    --radio: 8px;        /* radio único para botones y controles */
+    --radio-card: 14px;  /* radio único para tarjetas/recuadros */
+    --max-ancho: 1200px;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* El atributo [hidden] debe ganarle siempre a cualquier "display"
+   que le pongamos a un elemento por clase (ej. .btn con display:inline-flex),
+   si no el elemento queda visible aunque tenga hidden. */
+[hidden] {
+    display: none !important;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: var(--gris-oscuro);
+    background: var(--gris-claro);
+    min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
+    /* Footer siempre al fondo del viewport, aunque el contenido sea corto */
+    display: flex;
+    flex-direction: column;
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: var(--azul-panama);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    color: var(--rojo-panama);
+    text-decoration: underline;
+}
+
+/* Header institucional — persistente al hacer scroll */
+.site-header {
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-panama) 100%);
+    color: var(--blanco-panama);
+    box-shadow: 0 4px 6px var(--sombra-fuerte);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-header .franja-superior {
+    background: var(--azul-oscuro);
+    text-align: right;
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+}
+
+.site-header h1 {
+    color: var(--blanco-panama);
+    font-size: 1.9rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 1.25rem 1rem 0.5rem;
+    margin: 0;
+    border: none;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Nav: enlaces siempre centrados; si hay sesión, se reserva una
+   columna a la derecha, separada, para el botón de cerrar sesión */
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    padding: 0.75rem 1rem 1.25rem;
+}
+
+.site-nav:has(.nav-session) {
+    display: grid;
+    /* minmax(0, ...) en vez de "auto": permite que la columna encoja
+       y el contenido haga flex-wrap en vez de desbordar el viewport */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.site-nav .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    grid-column: 2;
+    min-width: 0;
+}
+
+.site-nav .nav-session {
+    grid-column: 3;
+    min-width: 0;
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+}
+
+.etiqueta-panel-admin {
+    color: var(--celeste-panama);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Botones del nav: mismo look plano y rectangular que panamadigital.gob.pa */
+.site-nav a,
+.site-nav button {
+    color: var(--blanco-panama);
+    font-weight: 700;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radio);
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+    background: var(--blanco-panama);
+    color: var(--azul-panama);
+    border-color: var(--rojo-panama);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+}
+
+/* Botón de cerrar sesión: mismo radio, look diferenciado (outline) */
+.nav-session button {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.nav-session button:hover {
+    background: var(--rojo-panama);
+    border-color: var(--rojo-panama);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.franja-bandera {
+    border: none;
+    height: 4px;
+    background: linear-gradient(90deg, var(--rojo-panama), var(--blanco-panama), var(--azul-panama));
+}
+
+/* Contenido */
+main {
+    flex: 1;
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    width: 100%;
+}
+
+/* Botón "volver" — consistente en toda la app */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--azul-panama);
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+}
+
+.btn-volver:hover {
+    color: var(--rojo-panama);
+    text-decoration: none;
+}
+
+/* Botones genéricos */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radio);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.btn-primario {
+    background: var(--azul-panama);
+    color: var(--blanco-panama);
+}
+
+.btn-primario:hover {
+    background: var(--azul-claro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--sombra);
+}
+
+.btn-peligro {
+    background: var(--rojo-panama);
+    color: var(--blanco-panama);
+}
+
+.btn-peligro:hover {
+    background: #b32014;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(213, 43, 30, 0.4);
+}
+
+.btn-exito {
+    background: var(--verde-exito);
+    color: var(--blanco-panama);
+}
+
+.btn-exito:hover {
+    background: #1e7e34;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
+}
+
+.btn-advertencia {
+    background: var(--amarillo-advertencia);
+    color: var(--gris-oscuro);
+}
+
+.btn-advertencia:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 193, 7, 0.4);
+}
+
+.btn-secundario {
+    background: var(--blanco-panama);
+    color: var(--azul-panama);
+    border: 2px solid var(--azul-panama);
+}
+
+.btn-secundario:hover {
+    background: var(--azul-panama);
+    color: var(--blanco-panama);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--sombra);
+}
+
+.btn-bloque {
+    display: flex;
+    width: 100%;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-sm {
+    min-height: 36px;
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Ficha de detalle de alerta — componente compartido entre
+   el sitio público y el panel admin */
+.ficha-alerta {
+    background: var(--blanco-panama);
+    border: 1px solid var(--gris-medio);
+    border-top: 3px solid var(--rojo-panama);
+}
+
+.ficha-inactiva {
+    border-top-color: var(--gris-medio);
+}
+
+.ficha-cabecera {
+    text-align: center;
+    padding: 1.75rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--gris-medio);
+}
+
+.ficha-cabecera h2 {
+    margin: 0.5rem 0 0.25rem;
+}
+
+.ficha-reporte {
+    color: var(--gris-oscuro);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.badge-estado {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    border-radius: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-activa {
+    background: var(--rojo-panama);
+    color: var(--blanco-panama);
+}
+
+.badge-finalizada {
+    background: var(--gris-medio);
+    color: var(--gris-oscuro);
+}
+
+.ficha-cuerpo {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    padding: 1.75rem 1.5rem;
+}
+
+.ficha-foto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.ficha-foto img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0;
+    border: 1px solid var(--gris-medio);
+}
+
+.ficha-recordatorio {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--rojo-panama);
+}
+
+.ficha-datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    min-width: 0;
+}
+
+.ficha-grupo {
+    min-width: 0;
+}
+
+.ficha-grupo h3 {
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gris-medio);
+}
+
+.ficha-lista {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    gap: 0.4rem 1rem;
+}
+
+.ficha-lista dt {
+    font-weight: 600;
+    color: var(--gris-oscuro);
+}
+
+.ficha-lista dd {
+    color: var(--gris-oscuro);
+    word-break: break-word;
+}
+
+/* Footer institucional */
+.site-footer {
+    background: var(--azul-oscuro);
+    color: var(--celeste-panama);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: 3rem;
+    border-top: 3px solid var(--rojo-panama);
+}
+
+.site-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--blanco-panama);
+}
+
+/* Utilidades responsive */
+.container-fluido {
+    width: 100%;
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (max-width: 767px) {
+    .site-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .site-nav a,
+    .site-nav button {
+        width: 100%;
+    }
+
+    .site-nav .nav-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .site-nav:has(.nav-session) {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .site-nav .nav-session {
+        justify-self: stretch;
+        align-items: center;
+        width: 100%;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    main {
+        padding: 1.25rem 1rem;
+    }
+
+    /* Evita zoom automático de iOS en inputs */
+    input, textarea, select {
+        font-size: 16px;
+    }
+
+    .ficha-cuerpo {
+        grid-template-columns: 1fr;
+    }
+
+    .ficha-foto img {
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
+    .ficha-lista {
+        grid-template-columns: 1fr;
+    }
+
+    .ficha-lista dt {
+        margin-top: 0.5rem;
+    }
+}

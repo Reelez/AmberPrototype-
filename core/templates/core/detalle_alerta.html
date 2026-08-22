@@ -1,26 +1,74 @@
 {% extends 'core/publico/baseUsuario.html' %}
 {% load static %}
 
-{% block title %}Detalle de Alerta {{ alerta.numero_reporte }}{% endblock %}
+{% block title %}Alerta AMBER: {{ alerta.nombre_desaparecido }}{% endblock %}
 
 {% block content %}
-<h2>Alerta AMBER: {{ alerta.nombre_desaparecido }}</h2>
-<img src="{{ alerta.imagen.url }}" alt="Imagen de {{ alerta.nombre_desaparecido }}" width="300">
 
-<ul>
-    <li><strong>Edad:</strong> {{ alerta.edad }}</li>
-    <li><strong>Género:</strong> {{ alerta.get_genero_display }}</li>
-    <li><strong>Última Ubicación:</strong> {{ alerta.ultima_ubicacion }}</li>
-    <li><strong>Fecha de Desaparición:</strong> {{ alerta.fecha_desaparicion }}</li>
-    <li><strong>Hora de Desaparición:</strong> {{ alerta.hora_desaparicion }}</li>
-    <li><strong>Número de Reporte:</strong> {{ alerta.numero_reporte }}</li>
-    <li><strong>Estatura:</strong> {{ alerta.estatura }}</li>
-    <li><strong>Contextura:</strong> {{ alerta.contextura }}</li>
-    <li><strong>Cabello:</strong> {{ alerta.tipo_cabello }} - {{ alerta.color_cabello }}</li>
-    <li><strong>Ojos:</strong> {{ alerta.color_ojos }}</li>
-    <li><strong>Piel:</strong> {{ alerta.color_piel }}</li>
-    <li><strong>Señas Particulares:</strong> {{ alerta.señas_particulares }}</li>
-    <li><strong>Otros Detalles:</strong> {{ alerta.otros_detalles }}</li>
-    <li><strong>Estado de Alerta:</strong> {% if alerta.activa %} Activa {% else %} Finalizada {% endif %}</li>
-</ul>
+<a href="{% url 'lista_alertas' %}" class="btn-volver">&larr; Volver a alertas activas</a>
+
+<article class="ficha-alerta {% if alerta.activa %}ficha-activa{% else %}ficha-inactiva{% endif %}">
+
+    <header class="ficha-cabecera">
+        <span class="badge-estado {% if alerta.activa %}badge-activa{% else %}badge-finalizada{% endif %}">
+            {% if alerta.activa %}Alerta activa{% else %}Finalizada{% endif %}
+        </span>
+        <h2>{{ alerta.nombre_desaparecido }}</h2>
+        <p class="ficha-reporte">Reporte N.º {{ alerta.numero_reporte }}</p>
+    </header>
+
+    <div class="ficha-cuerpo">
+        <div class="ficha-foto">
+            {% if alerta.imagen %}
+                <img src="{{ alerta.imagen.url }}" alt="Fotografía de {{ alerta.nombre_desaparecido }}">
+            {% endif %}
+            <p class="ficha-recordatorio">📞 Recuerda llamar al 104 en caso que tengas información importante.</p>
+        </div>
+
+        <div class="ficha-datos">
+            <section class="ficha-grupo">
+                <h3>Datos personales</h3>
+                <dl class="ficha-lista">
+                    <dt>Edad</dt><dd>{{ alerta.edad }} años</dd>
+                    <dt>Género</dt><dd>{{ alerta.get_genero_display }}</dd>
+                </dl>
+            </section>
+
+            <section class="ficha-grupo">
+                <h3>Última vez visto</h3>
+                <dl class="ficha-lista">
+                    <dt>Ubicación</dt><dd>{{ alerta.ultima_ubicacion }}</dd>
+                    <dt>Fecha</dt><dd>{{ alerta.fecha_desaparicion }}</dd>
+                    <dt>Hora</dt><dd>{{ alerta.hora_desaparicion }}</dd>
+                </dl>
+            </section>
+
+            <section class="ficha-grupo">
+                <h3>Características físicas</h3>
+                <dl class="ficha-lista">
+                    <dt>Estatura</dt><dd>{{ alerta.estatura }} cm</dd>
+                    <dt>Contextura</dt><dd>{{ alerta.contextura }}</dd>
+                    <dt>Cabello</dt><dd>{{ alerta.tipo_cabello }} - {{ alerta.color_cabello }}</dd>
+                    <dt>Ojos</dt><dd>{{ alerta.color_ojos }}</dd>
+                    <dt>Piel</dt><dd>{{ alerta.color_piel }}</dd>
+                </dl>
+            </section>
+
+            {% if alerta.señas_particulares or alerta.otros_detalles %}
+            <section class="ficha-grupo">
+                <h3>Señas particulares y otros detalles</h3>
+                <dl class="ficha-lista">
+                    {% if alerta.señas_particulares %}
+                        <dt>Señas particulares</dt><dd>{{ alerta.señas_particulares }}</dd>
+                    {% endif %}
+                    {% if alerta.otros_detalles %}
+                        <dt>Otros detalles</dt><dd>{{ alerta.otros_detalles }}</dd>
+                    {% endif %}
+                </dl>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
 {% endblock %}

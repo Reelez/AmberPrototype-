@@ -1,112 +1,4 @@
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Variables de colores panameños */
-:root {
-    --rojo-panama: #DC143C;
-    --azul-panama: #0066CC;
-    --blanco-panama: #FFFFFF;
-    --gris-claro: #F8F9FA;
-    --gris-medio: #E9ECEF;
-    --gris-oscuro: #343A40;
-    --verde-exito: #28A745;
-    --amarillo-advertencia: #FFC107;
-    --sombra: rgba(0, 0, 0, 0.1);
-    --sombra-fuerte: rgba(0, 0, 0, 0.2);
-}
-
-/* Estilos generales */
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: var(--gris-oscuro);
-    background: linear-gradient(135deg, var(--gris-claro) 0%, var(--blanco-panama) 100%);
-    min-height: 100vh;
-}
-
-/* Header administrativo */
-header {
-    background: linear-gradient(135deg, var(--gris-oscuro) 0%, var(--azul-panama) 100%);
-    color: var(--blanco-panama);
-    padding: 1.5rem 0;
-    text-align: center;
-    box-shadow: 0 4px 8px var(--sombra-fuerte);
-    position: relative;
-    border-bottom: 4px solid var(--rojo-panama);
-}
-
-header::before {
-    content: 'PANEL ADMINISTRATIVO';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--rojo-panama);
-    color: var(--blanco-panama);
-    padding: 0.3rem;
-    font-size: 0.8rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-header h1 {
-    font-size: 2.2rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-    margin: 1.5rem 0 1rem 0;
-    position: relative;
-    z-index: 1;
-}
-
-header h1::before {
-    margin-right: 0.5rem;
-}
-
-/* Navegación administrativa */
-nav {
-    position: relative;
-    z-index: 1;
-    margin-top: 1rem;
-}
-
-nav a {
-    color: var(--blanco-panama);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 0.7rem 1.5rem;
-    margin: 0 0.3rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid transparent;
-    display: inline-block;
-}
-
-nav a:hover {
-    background: var(--blanco-panama);
-    color: var(--azul-panama);
-    border-color: var(--rojo-panama);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-nav a::before {
-    margin-right: 0.5rem;
-}
-
-
-
-/* Línea divisoria */
-hr {
-    border: none;
-    height: 4px;
-    background: linear-gradient(90deg, var(--rojo-panama), var(--blanco-panama), var(--azul-panama));
-    margin: 0;
-}
+/* Colores, tipografía, header/nav/footer y reset viven en base.css */
 
 /* Contenido principal */
 main {
@@ -117,16 +9,13 @@ main {
 
 /* Títulos */
 h1 {
-    color: var(--rojo-panama);
+    color: var(--azul-oscuro);
     font-size: 2.5rem;
     margin-bottom: 2rem;
     text-align: center;
-    position: relative;
     padding: 1rem;
-    background: var(--blanco-panama);
-    border-radius: 15px;
-    box-shadow: 0 4px 8px var(--sombra);
-    border-left: 8px solid var(--azul-panama);
+    border: 1px solid var(--gris-medio);
+    border-radius: 0;
 }
 
 h1::before {
@@ -172,11 +61,12 @@ ul:has(li) li::before {
     margin-right: 0.5rem;
 }
 
-/* Contenedor del formulario */
-form {
+/* Contenedor del formulario de alerta (scopeado: no afecta a otros forms
+   como el de cerrar sesión o eliminar usuario) */
+.formulario-alerta {
     background: var(--blanco-panama);
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: var(--radio-card);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     border: 2px solid var(--azul-panama);
     margin: 2rem 0;
@@ -184,29 +74,11 @@ form {
     overflow: hidden;
 }
 
-/* Encabezado decorativo */
-form::before {
-    content: 'FORMULARIO DE ALERTA';
-    display: block;
-    background: var(--azul-panama);
-    color: var(--blanco-panama);
-    padding: 1rem;
-    margin: -2rem -2rem 1.5rem -2rem;
-    border-radius: 12px 12px 0 0;
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-    box-shadow: inset 0 -4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Espaciado entre campos */
-form p {
+.formulario-alerta p {
     margin-bottom: 1.8rem;
 }
 
-/* Etiquetas */
-form label {
+.formulario-alerta label {
     display: block;
     font-weight: 600;
     color: var(--gris-oscuro);
@@ -214,113 +86,56 @@ form label {
     font-size: 1.05rem;
 }
 
-/* Inputs, textarea, select */
-form input[type="text"],
-form input[type="email"],
-form input[type="tel"],
-form input[type="date"],
-form input[type="datetime-local"],
-form input[type="number"],
-form input[type="file"],
-form textarea,
-form select {
+.formulario-alerta input[type="text"],
+.formulario-alerta input[type="email"],
+.formulario-alerta input[type="tel"],
+.formulario-alerta input[type="date"],
+.formulario-alerta input[type="datetime-local"],
+.formulario-alerta input[type="number"],
+.formulario-alerta input[type="file"],
+.formulario-alerta textarea,
+.formulario-alerta select {
     width: 100%;
     padding: 0.85rem;
     border: 2px solid var(--gris-medio);
-    border-radius: 10px;
+    border-radius: var(--radio);
     font-size: 1rem;
     transition: all 0.3s ease;
     background: var(--blanco-panama);
 }
 
-/* Efecto focus */
-form input:focus,
-form textarea:focus,
-form select:focus {
+.formulario-alerta input:focus,
+.formulario-alerta textarea:focus,
+.formulario-alerta select:focus {
     outline: none;
     border-color: var(--azul-panama);
-    box-shadow: 0 0 8px rgba(0, 102, 204, 0.25);
+    box-shadow: 0 0 8px rgba(21, 76, 126, 0.25);
     transform: translateY(-1px);
 }
 
-/* Textarea más alto y ajustable */
-form textarea {
+.formulario-alerta textarea {
     resize: vertical;
     min-height: 120px;
 }
 
-/* Botón enviar */
-form button[type="submit"] {
-    background-color: var(--azul-panama);
-    color: var(--blanco-panama);
-    border: none;
-    padding: 0.9rem 2rem;
-    font-size: 1rem;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    font-weight: 600;
-    display: block;
-    margin-top: 1rem;
-    width: 100%;
-}
-
-/* Hover del botón */
-form button[type="submit"]:hover {
-    background-color: darken(var(--azul-panama), 10%);
-    transform: translateY(-2px);
-}
-
-
-
 .formulario-alerta fieldset {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid var(--gris-medio);
+    border-radius: var(--radio);
     padding: 1rem 1.5rem;
     margin-bottom: 2rem;
-    background-color: #fafafa;
+    background-color: var(--gris-claro);
 }
 
 .formulario-alerta legend {
     font-weight: bold;
     padding: 0 0.5rem;
     font-size: 1.1rem;
-}
-
-.formulario-alerta input,
-.formulario-alerta select,
-.formulario-alerta textarea {
-    display: block;
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.3rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.formulario-alerta .form-control-file {
-    padding: 0.3rem;
+    color: var(--azul-panama);
 }
 
 .submit-wrapper {
     text-align: center;
 }
-
-.submit-wrapper button {
-    padding: 0.7rem 2rem;
-    font-size: 1rem;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.submit-wrapper button:hover {
-    background-color: #003e82;
-}
-
 
 /* Estilo general de inputs de fecha y hora */
 .input-date,
@@ -329,7 +144,7 @@ form button[type="submit"]:hover {
     background-color: var(--blanco-panama);
     border: 2px solid var(--gris-medio);
     padding: 0.75rem 1rem;
-    border-radius: 10px;
+    border-radius: var(--radio);
     font-size: 1rem;
     width: 100%;
     transition: all 0.3s ease;
@@ -339,7 +154,7 @@ form button[type="submit"]:hover {
 .input-date:focus,
 .input-time:focus {
     border-color: var(--azul-panama);
-    box-shadow: 0 0 8px rgba(0, 102, 204, 0.25);
+    box-shadow: 0 0 8px rgba(21, 76, 126, 0.25);
     outline: none;
 }
 
@@ -389,36 +204,221 @@ input[type="file"]:hover::before {
 
 
 /* Botón principal */
-button[type="submit"] {
-    background: linear-gradient(135deg, var(--rojo-panama), #FF4757);
+/* Wizard de creación de alerta */
+.wizard-progreso {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 0.5rem;
+    margin: 1.5rem 0 2rem;
+    counter-reset: paso;
+}
+
+.wizard-progreso li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--gris-oscuro);
+    text-align: center;
+    min-width: 90px;
+}
+
+/* El círculo numerado es un indicador de progreso estándar,
+   no un botón de acción: se mantiene circular a propósito. */
+.wizard-progreso li::before {
+    content: attr(data-paso);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gris-medio);
+    color: var(--gris-oscuro);
+    font-weight: 700;
+}
+
+.wizard-progreso li.activo::before {
+    background: var(--azul-panama);
     color: var(--blanco-panama);
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px var(--sombra);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    width: 100%;
+}
+
+.wizard-progreso li.completado::before {
+    background: var(--verde-exito);
+    color: var(--blanco-panama);
+}
+
+.wizard-paso legend {
+    margin-bottom: 1rem;
+}
+
+.wizard-navegacion {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.wizard-navegacion .btn-primario {
+    margin-left: auto;
+}
+
+.wizard-imagen-preview {
+    display: block;
+    max-width: 220px;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: var(--radio);
+    border: 2px solid var(--azul-panama);
     margin-top: 1rem;
 }
 
-button[type="submit"]:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(220, 20, 60, 0.4);
-    background: linear-gradient(135deg, #FF4757, var(--rojo-panama));
+.wizard-resumen-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
 }
 
-button[type="submit"]:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px var(--sombra);
+.wizard-resumen {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.75rem 1.5rem;
+    min-width: 0;
 }
 
-button[type="submit"]::before {
-    margin-right: 0.5rem;
+.wizard-resumen-imagen {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radio);
+    border: 2px solid var(--azul-panama);
+}
+
+.wizard-resumen dt {
+    font-weight: 700;
+    color: var(--azul-panama);
+    min-width: 0;
+}
+
+.wizard-resumen dd {
+    color: var(--gris-oscuro);
+    word-break: break-word;
+    min-width: 0;
+}
+
+@media (max-width: 767px) {
+    .wizard-progreso li {
+        min-width: 70px;
+        font-size: 0.7rem;
+    }
+
+    .wizard-progreso li span {
+        display: none;
+    }
+
+    .wizard-navegacion {
+        flex-direction: column-reverse;
+    }
+
+    .wizard-navegacion .btn {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .wizard-resumen {
+        grid-template-columns: 1fr;
+    }
+
+    .wizard-resumen-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .wizard-resumen-imagen {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* Mensajes del sistema (listas de éxito genéricas) */
+.lista-mensajes {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.lista-mensajes li {
+    background: var(--verde-exito);
+    color: var(--blanco-panama);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radio);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* Tablas de datos */
+.tabla-responsive {
+    overflow-x: auto;
+    margin-top: 1rem;
+    border-radius: var(--radio-card);
+    box-shadow: 0 4px 8px var(--sombra);
+}
+
+.tabla-datos {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco-panama);
+}
+
+.tabla-datos th,
+.tabla-datos td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--gris-medio);
+    text-align: left;
+}
+
+.tabla-datos thead tr {
+    background: var(--azul-panama);
+    color: var(--blanco-panama);
+}
+
+.tabla-datos tbody tr:hover {
+    background: var(--gris-claro);
+}
+
+.tabla-vacia {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--gris-oscuro);
+}
+
+@media (max-width: 767px) {
+    .tabla-datos thead {
+        display: none;
+    }
+
+    .tabla-datos tr {
+        display: block;
+        border-bottom: 2px solid var(--gris-medio);
+    }
+
+    .tabla-datos td {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid var(--gris-claro);
+    }
+
+    .tabla-datos td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--azul-panama);
+    }
 }
 
 /* Lista de alertas administrativas */
@@ -431,12 +431,19 @@ button[type="submit"]::before {
 
 .alerta-admin-card {
     background: var(--blanco-panama);
-    border-radius: 12px;
+    border-radius: var(--radio-card);
     padding: 1.5rem;
     box-shadow: 0 4px 8px var(--sombra);
     border-left: 6px solid var(--azul-panama);
     transition: all 0.3s ease;
     position: relative;
+    min-width: 0;
+}
+
+.alerta-admin-card .alerta-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .alerta-admin-card:hover {
@@ -506,7 +513,7 @@ button[type="submit"]::before {
     color: var(--gris-oscuro);
     padding: 0.5rem 1rem;
     border: none;
-    border-radius: 20px;
+    border-radius: var(--radio);
     margin: 0 0.3rem;
     cursor: pointer;
     font-weight: bold;
@@ -523,7 +530,7 @@ button[type="submit"]::before {
     color: var(--blanco-panama);
     padding: 0.5rem 1rem;
     border: none;
-    border-radius: 20px;
+    border-radius: var(--radio);
     margin: 0 0.3rem;
     cursor: pointer;
     font-weight: bold;
@@ -547,10 +554,11 @@ button[type="submit"]::before {
     background: linear-gradient(135deg, var(--azul-panama), #4A90E2);
     color: var(--blanco-panama);
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: var(--radio-card);
     text-align: center;
     box-shadow: 0 6px 12px var(--sombra);
     transition: transform 0.3s ease;
+    min-width: 0;
 }
 
 .stat-card:hover {
@@ -566,25 +574,6 @@ button[type="submit"]::before {
 .stat-card p {
     font-size: 1.1rem;
     font-weight: bold;
-}
-
-/* Footer administrativo */
-footer {
-    background: var(--gris-oscuro);
-    color: var(--blanco-panama);
-    text-align: center;
-    padding: 1.5rem;
-    margin-top: 3rem;
-    border-top: 4px solid var(--rojo-panama);
-}
-
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-footer::before {
-    margin-right: 0.5rem;
 }
 
 /* Animaciones adicionales */
@@ -644,49 +633,10 @@ footer::before {
 }
 
 
-#logout-form {
-    all: unset;
-    display: inline;
-    margin: 0;
-}
-
+/* El logout hereda el estilo de .nav-session button en base.css */
 #logout-button {
-    background-color: var(--rojo-panama);
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px var(--sombra);
-        width: auto;           /* ← importante */
-    max-width: 200px;      /* ← opcional */
-    white-space: nowrap;   /* ← evita que se expanda por salto de línea */
+    white-space: nowrap;
 }
-
-#logout-button:hover {
-    background-color: #c5113a;
-    box-shadow: 0 6px 12px rgba(220, 20, 60, 0.4);
-}
-
-#logout-form::before {
-    content: none !important;
-    display: none !important;
-}
-
-
-
-
-
-#eliminar-form::before {
-    content: none !important;
-    display: none !important;
-}
-
-
-
-
 
 
 @keyframes spin {
@@ -779,12 +729,7 @@ footer::before {
         font-size: 1.8rem;
         margin: 1rem 0 0.5rem 0;
     }
-    
-    header::before {
-        font-size: 0.7rem;
-        padding: 0.2rem;
-    }
-    
+
     nav {
         margin-top: 0.5rem;
     }
@@ -795,17 +740,11 @@ footer::before {
         font-size: 0.9rem;
     }
     
-    form {
+    .formulario-alerta {
         padding: 1.5rem;
         margin: 1rem 0;
     }
-    
-    form::before {
-        font-size: 0.9rem;
-        padding: 0.6rem;
-        margin: -1.5rem -1.5rem 1.5rem -1.5rem;
-    }
-    
+
     .alerta-admin-card {
         padding: 1.2rem;
     }
@@ -879,29 +818,19 @@ footer::before {
         font-size: 1rem;
     }
     
-    form {
+    .formulario-alerta {
         padding: 1rem;
     }
-    
-    form::before {
-        margin: -1rem -1rem 1rem -1rem;
-        font-size: 0.8rem;
-    }
-    
-    form label {
+
+    .formulario-alerta label {
         font-size: 1rem;
     }
-    
-    form input,
-    form textarea,
-    form select {
+
+    .formulario-alerta input,
+    .formulario-alerta textarea,
+    .formulario-alerta select {
         padding: 0.7rem;
         font-size: 0.9rem;
-    }
-    
-    button[type="submit"] {
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
     }
     
     .botones-accion {
@@ -945,12 +874,7 @@ footer::before {
         font-size: 1.4rem;
         margin: 0.8rem 0.5rem 0.5rem 0.5rem;
     }
-    
-    header::before {
-        font-size: 0.6rem;
-        padding: 0.15rem;
-    }
-    
+
     h1 {
         font-size: 1.5rem;
         padding: 0.5rem;
@@ -967,33 +891,26 @@ footer::before {
         font-size: 0.8rem;
     }
     
-    form {
+    .formulario-alerta {
         padding: 0.8rem;
         border-width: 2px;
     }
-    
-    form::before {
-        margin: -0.8rem -0.8rem 0.8rem -0.8rem;
-        font-size: 0.7rem;
-        padding: 0.4rem;
-    }
-    
-    form input,
-    form textarea,
-    form select {
+
+    .formulario-alerta input,
+    .formulario-alerta textarea,
+    .formulario-alerta select {
         padding: 0.6rem;
         font-size: 0.85rem;
         border-width: 1px;
     }
-    
-    form textarea {
+
+    .formulario-alerta textarea {
         min-height: 80px;
     }
-    
-    button[type="submit"] {
+
+    .btn {
         padding: 0.7rem 1rem;
         font-size: 0.9rem;
-        border-radius: 20px;
     }
     
     .alerta-admin-card {
@@ -1063,7 +980,7 @@ footer::before {
         font-size: 1rem;
     }
     
-    button[type="submit"] {
+    .btn {
         font-size: 0.8rem;
         padding: 0.6rem 0.8rem;
     }
@@ -1073,9 +990,7 @@ footer::before {
 @media (max-width: 767px) {
     /* Aumentar área de toque */
     nav a,
-    .btn-editar,
-    .btn-eliminar,
-    button[type="submit"] {
+    .btn {
         min-height: 44px;
         display: flex;
         align-items: center;
@@ -1087,15 +1002,8 @@ footer::before {
         box-shadow: 0 2px 8px var(--sombra-fuerte);
     }
     
-    /* Evitar zoom en inputs */
-    form input,
-    form textarea,
-    form select {
-        font-size: 16px;
-    }
-    
     /* Mejor espaciado táctil */
-    form p {
+    .formulario-alerta p {
         margin-bottom: 1.2rem;
     }
 }

@@ -1,21 +1,40 @@
 {% extends 'core/publico/baseUsuario.html' %}
 
-{% block content %}
-<h2>Alertas AMBER Activas</h2>
+{% block title %}Alertas Activas - Alerta AMBER Panamá{% endblock %}
 
-<div class="alerta-container">
+{% block content %}
+
+<a href="{% url 'inicio' %}" class="btn-volver">&larr; Volver al inicio</a>
+
+<div class="cabecera-pagina">
+    <h2>Alertas AMBER Activas</h2>
+    <p class="cabecera-subtitulo">
+        {% if alertas %}
+            {{ alertas|length }} alerta{{ alertas|length|pluralize }} activa{{ alertas|length|pluralize }} en este momento
+        {% else %}
+            No hay alertas activas en este momento
+        {% endif %}
+    </p>
+</div>
+
+<div class="alerta-lista">
   {% for alerta in alertas %}
-    <a href="{% url 'detalle_alerta' alerta.id %}" class="alerta-card urgente" style="text-decoration: none; color: inherit;">
-      <h3>{{ alerta.nombre_desaparecido }}</h3>
-      {% if alerta.imagen %}
-        <img src="{{ alerta.imagen.url }}" alt="Imagen de {{ alerta.nombre_desaparecido }}">
-      {% endif %}
-      <p><strong>Última ubicación:</strong> {{ alerta.ultima_ubicacion }}</p>
-      <p><strong>Desaparecido desde:</strong> {{ alerta.fecha_desaparicion|date:"d \\d\\e F \\d\\e Y" }}</p>
-      <p><strong>Edad:</strong> {{ alerta.edad }} años</p>
-      <p style="text-align: center; margin-top: 1rem; font-weight: bold; color: var(--rojo-panama);">
-        📞 Si tienes información, llama al <strong>104</strong>
-      </p>
+    <a href="{% url 'detalle_alerta' alerta.id %}" class="alerta-card">
+      <div class="alerta-card-foto">
+        {% if alerta.imagen %}
+          <img src="{{ alerta.imagen.url }}" alt="Imagen de {{ alerta.nombre_desaparecido }}">
+        {% else %}
+          <span class="alerta-card-sin-foto">Sin foto</span>
+        {% endif %}
+      </div>
+      <div class="alerta-card-info">
+        <span class="badge-estado badge-activa">Alerta activa</span>
+        <h3>{{ alerta.nombre_desaparecido }}</h3>
+        <p><strong>Edad:</strong> {{ alerta.edad }} años</p>
+        <p><strong>Última ubicación:</strong> {{ alerta.ultima_ubicacion }}</p>
+        <p><strong>Desaparecido desde:</strong> {{ alerta.fecha_desaparicion|date:"d \\d\\e F \\d\\e Y" }}</p>
+        <p class="alerta-card-recordatorio">📞 Recuerda llamar al 104 en caso que tengas información importante.</p>
+      </div>
     </a>
   {% empty %}
     <div class="no-alertas">

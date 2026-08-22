@@ -1,29 +1,7 @@
-/* Variables de colores panameños */
-:root {
-    --rojo-panama: #DC143C;
-    --azul-panama: #0066CC;
-    --blanco-panama: #FFFFFF;
-    --gris-claro: #F8F9FA;
-    --gris-medio: #E9ECEF;
-    --gris-oscuro: #343A40;
-    --verde-exito: #28A745;
-    --amarillo-advertencia: #FFC107;
-    --sombra: rgba(0, 0, 0, 0.1);
-    --sombra-fuerte: rgba(0, 0, 0, 0.2);
-    --sombra-login: rgba(220, 20, 60, 0.3);
-}
-
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Colores, tipografía y reset viven en base.css */
 
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, var(--azul-panama) 0%, var(--rojo-panama) 50%, var(--azul-panama) 100%);
-    color: var(--gris-oscuro);
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-panama) 55%, var(--rojo-panama) 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;

@@ -4,7 +4,9 @@
 <html>
 <head>
     <title>Iniciar sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'estilo_login.css' %}">
 </head>
 <body>
@@ -17,14 +19,12 @@
         {% endif %}
         <form method="post">
             {% csrf_token %}
-            <label>Usuario:</label>
-            <input type="text" name="username"><br>
-            <label>Contraseña:</label>
-            <input type="password" name="password"><br>
+            <label for="id_username">Usuario:</label>
+            <input type="text" id="id_username" name="username" autocomplete="username">
+            <label for="id_password">Contraseña:</label>
+            <input type="password" id="id_password" name="password" autocomplete="current-password">
             <button type="submit">Entrar</button>
         </form>
     </div>
-</body>
-
 </body>
 </html>
