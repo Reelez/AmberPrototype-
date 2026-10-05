@@ -1,29 +1,35 @@
 self.addEventListener('install', function(event) {
-  console.log('✔️ Service Worker instalado');
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('push', function(event) {
-  console.log('💥 Push recibido:', event);
-  console.log('🔗 URL recibida:', event.data.json().url);
   let data = {};
   if (event.data) {
-    data = event.data.json();
+    try {
+      data = event.data.json();
+    } catch (err) {
+      data = { body: event.data.text() };
+    }
   }
   const options = {
     body: data.body || 'Tienes una nueva alerta',
-    data: { url: data.url }
+    data: { url: data.url || '/' },
+    tag: data.tag || data.url || 'alerta-amber',
+    renotify: true
   };
   event.waitUntil(
     self.registration.showNotification(data.title || 'Alerta AMBER', options)
   );
 });
 
-
 self.addEventListener('notificationclick', function(event) {
-  console.log('🔔 Notificación clickeada', event.notification.data.url);
   event.notification.close();
 
-  const urlToOpen = event.notification.data.url;
+  const urlToOpen = (event.notification.data && event.notification.data.url) || '/';
 
   event.waitUntil(
     clients.matchAll({
@@ -37,11 +43,8 @@ self.addEventListener('notificationclick', function(event) {
         }
       }
       if (clients.openWindow) {
-        console.log('🌐 Abriendo nueva ventana:', urlToOpen);
         return clients.openWindow(urlToOpen);
       }
     })
   );
 });
-
-

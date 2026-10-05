@@ -1,19 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import authenticate, login as auth_login
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+
+from core.services.webpush_service import enviar_web_push
 from .forms import AlertaAmberForm
 from .models import AlertaAmber
-from django.contrib.auth import authenticate, login as auth_login
-from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
-from django.conf import settings
-from django.shortcuts import render
-from django.contrib.admin.views.decorators import staff_member_required
-from notificaciones.utils import send_web_push_notification
-from django.urls import reverse
-from django.contrib.auth.models import User
-from django.http import JsonResponse
-from core.services.webpush_service import enviar_web_push
-
 
 
 def custom_login(request):
@@ -22,9 +15,11 @@ def custom_login(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
+        if user is not None and user.is_staff:
             auth_login(request, user)
-            return redirect('dashboard')  # Cambia al nombre de la vista que quieras
+            return redirect('dashboard')
+        elif user is not None:
+            messages.error(request, 'Tu cuenta no tiene permisos para acceder al panel')
         else:
             messages.error(request, 'Credenciales inválidas')
     
@@ -51,14 +46,41 @@ def crear_alerta(request):
             mensaje = f"Última ubicación: {alerta.ultima_ubicacion}. Reporta al 104"
             enviar_web_push(titulo, mensaje, url)
 
-            messages.success(request, "Alerta creada. Notificación Web Push enviada.")
+            messages.success(request, "Alerta creada. El envío de notificaciones Web Push quedó en cola.")
             return redirect('crear_alerta')
-               
+
     else:
         form = AlertaAmberForm()
 
     alertas = AlertaAmber.objects.filter(activa=True)
-    return render(request, 'core/admin/crear_alerta.html', {'form': form, 'alertas': alertas})
+    return render(request, 'core/admin/crear_alerta.html', {
+        'form': form,
+        'alertas': alertas,
+        'titulo': 'Crear Alerta Amber',
+        'texto_boton': 'Enviar alerta',
+    })
+
+
+@staff_member_required
+def editar_alerta(request, pk):
+    """Edit an existing alert. Editing never triggers a new broadcast."""
+    alerta = get_object_or_404(AlertaAmber, pk=pk)
+    if request.method == 'POST':
+        form = AlertaAmberForm(request.POST, request.FILES, instance=alerta)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Alerta actualizada.")
+            return redirect('detalle_alerta_admin', pk=alerta.pk)
+    else:
+        form = AlertaAmberForm(instance=alerta)
+
+    return render(request, 'core/admin/crear_alerta.html', {
+        'form': form,
+        'alerta': alerta,
+        'titulo': f'Editar Alerta Amber: {alerta.nombre_desaparecido}',
+        'texto_boton': 'Guardar cambios',
+        'editando': True,
+    })
 
 
 def detalle_alerta(request, pk):

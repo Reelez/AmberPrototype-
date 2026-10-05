@@ -22,6 +22,8 @@
                 <img src="{{ alerta.imagen.url }}" alt="Fotografía de {{ alerta.nombre_desaparecido }}">
             {% endif %}
 
+            <a href="{% url 'editar_alerta' alerta.id %}" class="btn btn-secundario btn-bloque">Editar alerta</a>
+
             <form method="post" action="{% url 'cambiar_estado_alerta' alerta.id %}">
                 {% csrf_token %}
                 {% if alerta.activa %}
@@ -48,8 +50,7 @@
                 <dl class="ficha-lista">
                     <dt>Ubicación</dt><dd>{{ alerta.ultima_ubicacion }}</dd>
                     <dt>Fecha</dt><dd>{{ alerta.fecha_desaparicion }}</dd>
-                    <dt>Hora</dt><dd>{{ alerta.hora_desaparicion }}</dd>
-                </dl>
+                    <dt>Hora</dt><dd>{{ alerta.hora_desaparicion }}</dd>                </dl>
             </section>
 
             <section class="ficha-grupo">

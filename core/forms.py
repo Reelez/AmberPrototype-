@@ -9,9 +9,11 @@ class AlertaAmberForm(forms.ModelForm):
         model = AlertaAmber
         exclude = ['numero_reporte', 'activa']
         widgets = {
-            'fecha_desaparicion': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'hora_desaparicion': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            # HTML date/time inputs only accept ISO values, regardless of LANGUAGE_CODE.
+            'fecha_desaparicion': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date', 'class': 'form-control'}),
+            'hora_desaparicion': forms.TimeInput(format='%H:%M', attrs={'type': 'time', 'class': 'form-control'}),
             'imagen': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'otros_detalles': forms.Textarea(attrs={'rows': 4}),
         }
         labels = {
             'nombre_desaparecido': 'Nombre completo',
@@ -41,10 +43,13 @@ class AlertaAmberForm(forms.ModelForm):
 
     def clean_imagen(self):
         imagen = self.cleaned_data.get('imagen')
-        if imagen:
+        # Only validate fresh uploads; an unchanged image on edit is already stored.
+        if imagen and hasattr(imagen, 'content_type'):
             try:
                 img = Image.open(imagen)
                 img.verify()  # Verifica que sea una imagen válida
             except Exception:
                 raise ValidationError("El archivo subido no es una imagen válida.")
+            finally:
+                imagen.seek(0)  # verify() consumes the stream; rewind before saving
         return imagen

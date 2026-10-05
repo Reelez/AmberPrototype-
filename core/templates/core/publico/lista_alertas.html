@@ -19,7 +19,8 @@
 
 <div class="alerta-lista">
   {% for alerta in alertas %}
-    <a href="{% url 'detalle_alerta' alerta.id %}" class="alerta-card">
+    <div class="alerta-card">
+     <a href="{% url 'detalle_alerta' alerta.id %}" class="alerta-card-enlace">
       <div class="alerta-card-foto">
         {% if alerta.imagen %}
           <img src="{{ alerta.imagen.url }}" alt="Imagen de {{ alerta.nombre_desaparecido }}">
@@ -35,7 +36,12 @@
         <p><strong>Desaparecido desde:</strong> {{ alerta.fecha_desaparicion|date:"d \\d\\e F \\d\\e Y" }}</p>
         <p class="alerta-card-recordatorio">📞 Recuerda llamar al 104 en caso que tengas información importante.</p>
       </div>
-    </a>
+     </a>
+     <div class="alerta-card-llamadas">
+       <a href="tel:104" class="btn btn-peligro">Llamar al 104 (Policía Nacional)</a>
+       <a href="tel:5201000" class="btn btn-secundario">Llamar al 520-1000 (DIJ)</a>
+     </div>
+    </div>
   {% empty %}
     <div class="no-alertas">
       <p>No hay alertas activas en este momento.</p>

@@ -1,25 +1,10 @@
 {% extends 'core/admin/base.html' %}
 {% load static %}
 
-{% block title %}Crear Alerta Amber{% endblock %}
+{% block title %}{{ titulo|default:'Crear Alerta Amber' }}{% endblock %}
 
 {% block content %}
-<h1>Crear Alerta Amber</h1>
-
-{% if messages %}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      {% for message in messages %}
-        Swal.fire({
-          icon: '{% if message.tags == "success" %}success{% elif message.tags == "error" %}error{% else %}info{% endif %}',
-          title: '{{ message|escapejs }}',
-          showConfirmButton: false,
-          timer: 3000
-        });
-      {% endfor %}
-    });
-  </script>
-{% endif %}
+<h1>{{ titulo|default:'Crear Alerta Amber' }}</h1>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -77,7 +62,7 @@
     <label for="{{ form.imagen.id_for_label }}">{{ form.imagen.label }}</label>
     {{ form.imagen }}
     {{ form.imagen.errors }}
-    <img id="wizard-imagen-preview" class="wizard-imagen-preview" hidden alt="Vista previa">
+    <img id="wizard-imagen-preview" class="wizard-imagen-preview" {% if editando and alerta.imagen %}src="{{ alerta.imagen.url }}"{% else %}hidden{% endif %} alt="Vista previa">
   </fieldset>
 
   <!-- Paso 4: Características físicas -->
@@ -134,7 +119,7 @@
   <div class="wizard-navegacion">
     <button type="button" class="btn btn-secundario" id="wizard-atras" hidden>Atrás</button>
     <button type="button" class="btn btn-primario" id="wizard-siguiente">Siguiente</button>
-    <button type="submit" class="btn btn-primario" id="wizard-enviar" hidden>Enviar alerta</button>
+    <button type="submit" class="btn btn-primario" id="wizard-enviar" hidden>{{ texto_boton|default:'Enviar alerta' }}</button>
   </div>
 
 </form>

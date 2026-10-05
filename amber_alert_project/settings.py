@@ -10,6 +10,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
+# Needed when the app is reached through an HTTPS tunnel or domain (e.g. https://xyz.trycloudflare.com)
+CSRF_TRUSTED_ORIGINS = [o for o in config('CSRF_TRUSTED_ORIGINS', default='').split(',') if o]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,6 +49,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.vapid_public_key',
             ],
         },
     },
@@ -71,18 +74,31 @@ else:
         }
     }
 
-DISPATCH_API_KEY = config('DISPATCH_API_KEY')
-
 VAPID_PUBLIC_KEY = config('VAPID_PUBLIC_KEY')
 VAPID_PRIVATE_KEY = config('VAPID_PRIVATE_KEY')
 VAPID_CLAIMS = {
     "sub": f"mailto:{config('VAPID_CLAIMS_EMAIL')}"
 }
 
+# Dispatch Web Push in a background thread (set False to run synchronously, e.g. in tests)
+WEBPUSH_ASYNC = config('WEBPUSH_ASYNC', default=True, cast=bool)
+
+# CAP v1.2 <sender> value
+CAP_SENDER = config('CAP_SENDER', default='alerta-amber@amber.pa')
+
+LOGIN_URL = 'login'
+
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 LANGUAGE_CODE = 'es'
 TIME_ZONE = 'America/Panama'

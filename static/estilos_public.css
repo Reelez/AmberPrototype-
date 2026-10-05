@@ -165,10 +165,9 @@ strong {
    Mismo patrón visual que las tarjetas del panel admin
    (acento lateral, badge de estado, estructura clara). */
 .alerta-card {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    align-items: center;
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     background: var(--blanco-panama);
     border-radius: var(--radio-card);
     padding: 1.25rem 1.5rem;
@@ -184,6 +183,51 @@ strong {
     transform: translateY(-3px);
     box-shadow: 0 8px 16px var(--sombra-fuerte);
     text-decoration: none;
+}
+
+.alerta-card-enlace {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+.alerta-card-llamadas,
+.ficha-llamadas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.alerta-card-llamadas .btn {
+    flex: 1 1 200px;
+}
+
+.site-nav button[hidden] {
+    display: none;
+}
+
+.site-nav .btn-activar-alertas {
+    background: var(--rojo-panama);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.site-nav .btn-activar-alertas:hover:not(:disabled),
+.site-nav .btn-activar-alertas:focus-visible {
+    background: var(--blanco-panama);
+    color: var(--azul-panama);
+    border-color: var(--rojo-panama);
+}
+
+.site-nav .btn-activar-alertas:disabled {
+    background: rgba(255, 255, 255, 0.12);
+    cursor: default;
+    opacity: 0.85;
 }
 
 .alerta-card-foto {
@@ -262,7 +306,7 @@ strong {
         font-size: 1.5rem;
     }
 
-    .alerta-card {
+    .alerta-card-enlace {
         grid-template-columns: 1fr;
         text-align: center;
     }

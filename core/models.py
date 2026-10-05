@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from datetime import time
 
 class AlertaAmber(models.Model):
-    
+
     #info principal
    
     nombre_desaparecido = models.CharField(max_length=100)  # Nombre del niño o persona desaparecida
@@ -30,7 +30,7 @@ class AlertaAmber(models.Model):
     #rasgos particulares
     señas_particulares = models.CharField(max_length=255, blank=True)
     #detalles extras
-    otros_detalles = models.CharField(max_length=25, blank=True)
+    otros_detalles = models.TextField(blank=True)
 
     activa = models.BooleanField(default=True, editable=False)
   # Si la alerta sigue activa

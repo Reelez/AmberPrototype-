@@ -33,3 +33,6 @@ staticfiles/
 # Documentos personales / no pertenecen al repo
 *.pdf
 .atl/
+
+# Word/Office lock files
+~$*
