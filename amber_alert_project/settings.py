@@ -69,8 +69,11 @@ WSGI_APPLICATION = 'amber_alert_project.wsgi.application'
 
 DATABASE_URL = config('DATABASE_URL', default=None)
 if DATABASE_URL:
+    db_config = dj_database_url.parse(DATABASE_URL)
+    if DATABASE_URL.startswith('mysql://'):
+        db_config['ENGINE'] = 'mysql.connector.django'
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
+        'default': db_config
     }
 else:
     DATABASES = {
