@@ -21,13 +21,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
+from django.views.static import serve
+from django.urls import re_path
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('', include('notificaciones.urls')),
     path('service-worker.js', TemplateView.as_view(
-    template_name="service-worker.js",
-    content_type='application/javascript'
+        template_name="service-worker.js",
+        content_type='application/javascript'
     ), name='service_worker'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
